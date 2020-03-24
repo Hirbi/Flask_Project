@@ -14,7 +14,14 @@
     <nav class="navbar navbar-light bg-warning">
         <a class="navbar-brand" href="/index"><h1>Тут должен быть логотип</h1></a>
         <!-- Если пользователь авторизован -->
-        <a class="navbar-brand" > &laquo; username &raquo;</a>
+        {% if current_user.is_authenticated %}
+            <a>{{current_user.name}}</a>
+        {% else %}
+            <p>
+                <a class="btn btn-primary" href="/register">Зарегистрироваться</a>
+                <a class="btn btn-success" href="/login">Войти</a>
+            </p>
+        {% endif %}
     </nav>
     <nav class="navbar navbar-expand-lg navbar-light bg-warning">
           <a class="navbar-brand">Навигация по сайту</a>
@@ -32,6 +39,7 @@
         </ul>
       </div>
         <!-- Если пользователь авторизован -->
+        {% if current_user.is_authenticated %}
         <table>
             <tr>
                 <td>
@@ -40,12 +48,13 @@
                     </a>
                 </td>
                 <td>
-                    <a class="btn btn-danger float-right" href="#">
-                        Выйти
+                        <a class="btn btn-danger float-right" href="logout">
+                            Выйти
                     </a>
                 </td>
             </tr>
         </table>
+        {% endif %}
     </nav>
     <nav class="navbar navbar-light bg-warning">
         <form class="form-inline">
