@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <title>TradeHub</title>
+</head>
+<body>
+<div class="p-3 mb-2 bg-warning" role="alert">
+    <nav class="navbar navbar-light bg-warning">
+        <a class="navbar-brand" href="/index"><h1>Тут должен быть логотип</h1></a>
+        <!-- Если пользователь авторизован -->
+        <a class="navbar-brand" > &laquo; username &raquo;</a>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-warning">
+          <a class="navbar-brand">Навигация по сайту</a>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ml-left">
+          <li class="nav-item active">
+            <a class="nav-link" href="/index">На главную<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Отзывы о проекте</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Сотрудничество</a>
+          </li>
+        </ul>
+      </div>
+        <!-- Если пользователь авторизован -->
+        <table>
+            <tr>
+                <td>
+                    <a class="btn btn-success float-right" href="#">
+                    Подать объявление
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-danger float-right" href="#">
+                        Выйти
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </nav>
+    <nav class="navbar navbar-light bg-warning">
+        <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+      </form>
+    </nav>
+</div>
+<main>
+    {% block content %}{% endblock %}
+</main>
+<footer class="page-footer font-small blue pt-4">
+    <h6 align="center"> Советуем заглянуть =) </h6>
+        <table align="center" cellpadding="20">
+            <tr>
+                <td>
+                    <a href="#"> Что-то </a>
+                </td>
+                <td>
+                    <a href="#"> Что-то </a>
+                </td>
+                <td>
+                    <a href="https://www.instagram.com/danilus_2">danilus</a>
+                </td>
+                <td>
+                    <a href="https://www.instagram.com/burryromas/">Hirb</a>
+                </td>
+            </tr>
+            </tr>
+        </table>
+  <div class="footer-copyright text-center py-3">© 2020 Copyright:
+    <h6 href="/index"> TradeHub</h6>
+  </div>
+</footer>
+</body>
+</html>
