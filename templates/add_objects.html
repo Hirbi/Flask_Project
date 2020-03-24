@@ -34,17 +34,6 @@
         </ol>
 
         <div class="carousel-inner">
-            <div class="item active">
-                <img src="/static/img/mars.jpg" height="500" width="500" style="width:100%;">
-            </div>
-
-            <div class="item">
-                <img src="/static/img/mars2.jpg" height="500" width="500" style="width:100%;">
-            </div>
-
-            <div class="item">
-                <img src="/static/img/mars3.jpg" height="500" width="500" style="width:100%;">
-            </div>
             {% for file in files %}
                 <div class="item">
                     <img src="{{ file }}" height="500" width="500" style="width:100%;">
@@ -67,7 +56,7 @@
                 <label for="photo">Приложите фотографию</label>
                 <input type="file" class="form-control-file" id="photo" name="file">
             </div>
-        <button type="submit" class="btn btn-primary">Отправить</button>
+        <button type="button" class="btn btn-primary">Отправить</button>
         </form>
     </div>
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>

@@ -5,12 +5,24 @@ from wtforms import StringField, PasswordField, SubmitField, TextAreaField, Bool
 from wtforms.validators import DataRequired
 from flask import Flask, render_template
 from data import db_session, objects, users
+from werkzeug.utils import secure_filename
+import os
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+app.config['SECRET_KEY'] = 'asdads_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
+UPLOAD_FOLDER = os.getcwd() + '/static/img'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+files = []
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
 @login_manager.user_loader
@@ -42,7 +54,7 @@ class LoginForm(FlaskForm):
 class ObjectsForm(FlaskForm):
     name = StringField('Название', validators=[DataRequired()])
     description = StringField('Описание', validators=[DataRequired()])
-    pictures = FileField('??Фото??', validators=[DataRequired()])
+    # pictures = FileField('??Фото??', validators=[DataRequired()])
     submit = SubmitField('Сохранить')
 
 
@@ -55,12 +67,16 @@ def add_obj():
         obj = objects.Object()
         obj.name = form.name.data
         obj.description = form.description.data
-        obj.pictures = form.pictures.data
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            files.append('/static/img/' + filename)
         current_user.news.append(obj)
         sessions.merge(current_user)
         sessions.commit()
         return redirect('/')
-    return render_template('add_objects.html', title='Добавление новости', form=form)
+    return render_template('add_objects.html', title='Добавление новости', form=form, files=files)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -110,7 +126,7 @@ def reqister():
 @app.route('/')
 @app.route('/index')
 def main_page():
-    return render_template('main_page.html')
+    return render_template('main_page.html', current_user=current_user)
 
 
 if __name__ == '__main__':
