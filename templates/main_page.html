@@ -1,4 +1,15 @@
 {% extends "base.html" %}
+{% block navigation %}
+    <a class="navbar-brand">Навигация по сайту</a>
+{% endblock %}
+{% block find %}
+<nav class="navbar navbar-light bg-warning">
+        <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+      </form>
+    </nav>
+{% endblock %}
 {% block content %}
 <div class="d-flex p-2">
     <div class="col-md-3 mb-md-0 mb-3">
