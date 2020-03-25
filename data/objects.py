@@ -17,5 +17,5 @@ class Object(SqlAlchemyBase, UserMixin, SerializerMixin):
     user = orm.relation('User')
 
     def __repr__(self):
-        return f'[id:{self.id}, name:{self.name},' \
-               f' desc:{self.description}, author:{self.user.name}, pics: {self.pictures}]'
+        return f'|id:{self.id}, name:{self.name},' \
+               f' desc:{self.description}, author:{self.user.name}, pics: {self.pictures}|'
