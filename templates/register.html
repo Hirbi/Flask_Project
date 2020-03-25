@@ -60,6 +60,19 @@
                     </p>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <p>
+                        {{ form.town.label }}<br>
+                        {{ form.town(class="form-control") }}<br>
+                        {% for error in form.town.errors %}
+                            <p class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </p>
+                        {% endfor %}
+                    </p>
+                </td>
+            </tr>
         </table>
         <p align="center">{{ form.submit(type="submit", class="btn btn-primary") }}</p>
         {{message}}

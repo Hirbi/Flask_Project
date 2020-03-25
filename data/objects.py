@@ -14,6 +14,8 @@ class Object(SqlAlchemyBase, UserMixin, SerializerMixin):
     description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     pictures = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
+    user = orm.relation('User')
 
     def __repr__(self):
-        return f'{self.id}, {self.name}, {self.description}'
+        return f'[id:{self.id}, name:{self.name},' \
+               f' desc:{self.description}, author:{self.user.name}]'

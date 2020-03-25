@@ -38,8 +38,11 @@
                 </tr>
                 <tr>
                     <td class="active">Город:</td>
-                    <td>город</td>
-                    <!--добавить current_user.city после реализации, или что-то другое-->
+                    {% if current_user.town == None %}
+                        <td>Не указан</td>
+                    {% else %}
+                        <td>{{ current_user.town }}</td>
+                    {% endif %}
                 </tr>
                 <tr>
                     <td class="active">Электронная почта:</td>
@@ -47,7 +50,15 @@
                 </tr>
                 <tr>
                     <td class="active">Создано объявлений:</td>
-                    <td> Колличество объявлений </td>
+                    <td> {{ kolvo }} </td>
+                </tr>
+                <tr>
+                    <td class="active">Рейтинг:</td>
+                    {% if current_user.rating == None %}
+                        <td>Без рейтинга</td>
+                    {% else %}
+                        <td> {{current_user.rating}} </td>
+                    {% endif %}
                 </tr>
                 {% if current_user.is_authenticated %}
                     <tr>

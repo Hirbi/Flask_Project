@@ -42,6 +42,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Пароль', validators=[DataRequired()])
     password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
     name = StringField('Имя пользователя', validators=[DataRequired()])
+    town = StringField('Город', validators=[DataRequired()])
     submit = SubmitField('Зарегистрироваться')
 
 
@@ -54,7 +55,7 @@ class LoginForm(FlaskForm):
 
 class ObjectsForm(FlaskForm):
     name = StringField('Название', validators=[DataRequired()])
-    description = StringField('Описание', validators=[DataRequired()])
+    description = TextAreaField('Описание', validators=[DataRequired()])
     # pictures = FileField('??Фото??', validators=[DataRequired()])
     submit = SubmitField('Сохранить')
 
@@ -62,7 +63,8 @@ class ObjectsForm(FlaskForm):
 @app.route('/profile')
 @login_required
 def profile():
-    return render_template('profile_page.html', title=current_user.name)
+    return render_template('profile_page.html', kolvo=len(str(current_user.objects).split('], ')),
+                           title=current_user.name)
 
 
 @app.route('/add_obj', methods=['GET', 'POST'])
@@ -74,12 +76,7 @@ def add_obj():
         obj = objects.Object()
         obj.name = form.name.data
         obj.description = form.description.data
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            files.append('/static/img/' + filename)
-        current_user.news.append(obj)
+        current_user.objects.append(obj)
         sessions.merge(current_user)
         sessions.commit()
         return redirect('/')
