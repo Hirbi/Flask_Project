@@ -26,8 +26,11 @@
         </div>
     </div>
         <hr>
-        <h4>Информация о пользователе</h4>
-        <div class="alert alert-secondary" role="alert" style="width: 50%;">
+        <table width="100%">
+            <td width="50%" align="center"><h4>Информация о пользователе</h4></td>
+            <td width="50%" align="center"><h4>Активные объявления пользователя</h4></td>
+        </table>
+        <div class="alert alert-secondary" role="alert" style="width: 48%; float: left;  margin-right: 2%;">
             <table align="center" class="table">
                 <tr>
                     <td class="active">На сайте с: </td>
@@ -63,10 +66,31 @@
                 {% if current_user.is_authenticated %}
                     <tr>
                         <td>
-                            <a class="btn btn-primary" href="#">Редактировать</a><!-- Если можно будет заходить на чужой профиль -->
+                            <a class="btn btn-primary" href="#">Редактировать</a>
                         </td>
                     </tr>
                 {% endif %}
             </table>
+        </div>
+        <div style="width: 48%; float: left; margin-left: 2%;">
+            {% if current_user.objects %}
+                <table align="center" class="table">
+                    {% for object in current_user.objects %}
+                        <tr>
+                            <td width="25%">
+                                <a href="#">
+                                    Название товара: {{ object.name }}<br>
+                                    Описание товара: {{ object.description }}
+                                </a>
+                            </td>
+                            <td>
+                                foto
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p> пусто </p>
+            {% endif %}
         </div>
 {% endblock %}

@@ -9,7 +9,7 @@
           crossorigin="anonymous">
     <title>{{ title }}</title>
 </head>
-<body> <!--background="../static/img/back.jpg"-->
+<body style="display: flex; flex-direction: column"> <!--background="../static/img/back.jpg"-->
 <div>
     <nav class="navbar navbar-light bg-warning">
         <a class="navbar-brand" href="/index"><h1>Тут должен быть логотип</h1></a>
@@ -58,31 +58,33 @@
     </nav>
     {% block find %}{% endblock %}
 </div>
-<main>
+<main style="flex-grow: 1;">
     {% block content %}{% endblock %}
 </main>
 <footer class="page-footer font-small blue pt-4">
-    <h6 align="center"> Советуем заглянуть =) </h6>
-        <table align="center" cellpadding="20">
-            <tr>
-                <td>
-                    <a href="#"> Что-то </a>
-                </td>
-                <td>
-                    <a href="#"> Что-то </a>
-                </td>
-                <td>
-                    <a href="https://www.instagram.com/danilus_2">danilus</a>
-                </td>
-                <td>
-                    <a href="https://www.instagram.com/burryromas/">Hirb</a>
-                </td>
-            </tr>
-            </tr>
-        </table>
-  <div class="footer-copyright text-center py-3">© 2020 Copyright:
-    <h6 href="/index"> TradeHub</h6>
-  </div>
+    <div>
+        <h6 align="center"> Советуем заглянуть =) </h6>
+            <table align="center" cellpadding="20">
+                <tr>
+                    <td>
+                        <a href="#"> Что-то </a>
+                    </td>
+                    <td>
+                        <a href="#"> Что-то </a>
+                    </td>
+                    <td>
+                        <a href="https://www.instagram.com/danilus_2">danilus</a>
+                    </td>
+                    <td>
+                        <a href="https://www.instagram.com/burryromas/">Hirb</a>
+                    </td>
+                </tr>
+                </tr>
+            </table>
+          <div class="footer-copyright text-center py-3">© 2020 Copyright:
+            <h6 href="/index"> TradeHub</h6>
+          </div>
+    </div>
 </footer>
 </body>
 </html>
