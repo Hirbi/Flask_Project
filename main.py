@@ -85,7 +85,6 @@ def show_obj(id):
             print(files)
             return render_template('object_page.html', files=files)
     files = obj.pictures.split()
-    print(files)
     return render_template('object_page.html', files=files)
 
 
