@@ -69,21 +69,24 @@ def profile():
 
 @app.route('/obj/<int:id>', methods=['GET', 'POST'])
 def show_obj(id):
+    session = db_session.create_session()
+    obj = session.query(objects.Object).filter(objects.Object.id == id).first()
     if request.method == 'POST':
         file = request.files['file']
-        session = db_session.create_session()
-        obj = session.query(objects.Object).filter(objects.Object.id == id).first()
+        filename = '/'.join(UPLOAD_FOLDER.split('\\')) + '/' + str(id) + '_' + file.filename
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         if obj:
-            obj.pictures = str(obj.pictures) + ' ' + file.filename
-        session.merge(current_user)
-        session.commit()
-        print(file.filename)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(str(id) + '_' + file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            files.append('/static/img/' + filename)
+            if '../static/img/' + str(id) + '_' + file.filename not in obj.pictures:
+                obj.pictures = str(obj.pictures) + ' ' + '../static/img/' + str(id) + '_' + file.filename
+                session.merge(obj)
+                session.commit()
+            print(file.filename)
+            files = obj.pictures.split()
+            print(files)
             return render_template('object_page.html', files=files)
-    return render_template('object_page.html')
+    files = obj.pictures.split()
+    print(files)
+    return render_template('object_page.html', files=files)
 
 
 @app.route('/add_obj', methods=['GET', 'POST'])
