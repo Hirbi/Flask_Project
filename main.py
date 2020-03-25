@@ -67,7 +67,7 @@ def profile():
     if str(current_user.objects) == '[]':
         kolvo = 0
     else:
-        kolvo = len(str(current_user.objects).split('], '))
+        kolvo = len(str(current_user.objects).split('|, '))
     return render_template('profile_page.html', kolvo=kolvo, title=current_user.name)
 
 
