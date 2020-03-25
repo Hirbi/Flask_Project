@@ -43,6 +43,7 @@ class RegisterForm(FlaskForm):
     password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
     name = StringField('Имя пользователя', validators=[DataRequired()])
     town = StringField('Город', validators=[DataRequired()])
+    phone = StringField('Телефон', validators=[DataRequired()])
     submit = SubmitField('Зарегистрироваться')
 
 
@@ -56,7 +57,6 @@ class LoginForm(FlaskForm):
 class ObjectsForm(FlaskForm):
     name = StringField('Название', validators=[DataRequired()])
     description = TextAreaField('Описание', validators=[DataRequired()])
-    # pictures = FileField('??Фото??', validators=[DataRequired()])
     submit = SubmitField('Сохранить')
 
 
@@ -140,6 +140,8 @@ def reqister():
             name=form.name.data,
             email=form.email.data,
             password=form.password.data,
+            town=form.town.data,
+            phone=form.phone.data
         )
         user.set_password(form.password.data)
         sessions.add(user)
