@@ -12,10 +12,10 @@ class Object(SqlAlchemyBase, UserMixin, SerializerMixin):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    pictures = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    pictures = sqlalchemy.Column(sqlalchemy.String, nullable=True, default=' ')
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     user = orm.relation('User')
 
     def __repr__(self):
         return f'[id:{self.id}, name:{self.name},' \
-               f' desc:{self.description}, author:{self.user.name}]'
+               f' desc:{self.description}, author:{self.user.name}, pics: {self.pictures}]'

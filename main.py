@@ -67,6 +67,25 @@ def profile():
                            title=current_user.name)
 
 
+@app.route('/obj/<int:id>', methods=['GET', 'POST'])
+def show_obj(id):
+    if request.method == 'POST':
+        file = request.files['file']
+        session = db_session.create_session()
+        obj = session.query(objects.Object).filter(objects.Object.id == id).first()
+        if obj:
+            obj.pictures = str(obj.pictures) + ' ' + file.filename
+        session.merge(current_user)
+        session.commit()
+        print(file.filename)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(str(id) + '_' + file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            files.append('/static/img/' + filename)
+            return render_template('object_page.html', files=files)
+    return render_template('object_page.html')
+
+
 @app.route('/add_obj', methods=['GET', 'POST'])
 @login_required
 def add_obj():

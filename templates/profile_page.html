@@ -78,7 +78,7 @@
                     {% for object in current_user.objects %}
                         <tr>
                             <td width="25%">
-                                <a href="#">
+                                <a href="/obj/{{ object.id }}">
                                     Название товара: {{ object.name }}<br>
                                     Описание товара: {{ object.description }}
                                 </a>
