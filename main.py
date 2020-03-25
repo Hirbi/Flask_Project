@@ -6,6 +6,7 @@ from wtforms.validators import DataRequired
 from flask import Flask, render_template
 from data import db_session, objects, users
 from werkzeug.utils import secure_filename
+import datetime
 import os
 
 
@@ -56,6 +57,12 @@ class ObjectsForm(FlaskForm):
     description = StringField('Описание', validators=[DataRequired()])
     # pictures = FileField('??Фото??', validators=[DataRequired()])
     submit = SubmitField('Сохранить')
+
+
+@app.route('/profile')
+@login_required
+def profile():
+    return render_template('profile_page.html', title=current_user.name)
 
 
 @app.route('/add_obj', methods=['GET', 'POST'])
@@ -114,7 +121,7 @@ def reqister():
         user = users.User(
             name=form.name.data,
             email=form.email.data,
-            password=form.password.data
+            password=form.password.data,
         )
         user.set_password(form.password.data)
         sessions.add(user)
@@ -126,7 +133,7 @@ def reqister():
 @app.route('/')
 @app.route('/index')
 def main_page():
-    return render_template('main_page.html', current_user=current_user)
+    return render_template('main_page.html', current_user=current_user, title='TradeHub')
 
 
 if __name__ == '__main__':

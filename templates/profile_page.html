@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% set months = {
+    1: 'января',
+    2: 'февраля',
+    3: 'марта',
+    4: 'апреля',
+    5: 'мая',
+    6: 'июня',
+    7: 'июля',
+    8: 'августа',
+    9: 'сентября',
+    10: 'октября',
+    11: 'ноября',
+    12: 'декабря'
+    } %}
+    <div>
+        <div>
+            <h2>Пользователь сайта</h2>
+        </div>
+        <div class="alert alert-primary" role="alert" style="text-align: center; width: 20%;">
+            <div>
+                <h3>{{ current_user.name }}</h3>
+            </div>
+        </div>
+    </div>
+        <hr>
+        <h4>Информация о пользователе</h4>
+        <div class="alert alert-secondary" role="alert" style="width: 50%;">
+            <table align="center" class="table">
+                <tr>
+                    <td class="active">На сайте с: </td>
+                    <td>{{ current_user.created_date.date().day }} {{
+                        months[current_user.created_date.date().month] }} {{
+                        current_user.created_date.date().year }} года
+                    </td>
+                </tr>
+                <tr>
+                    <td class="active">Город:</td>
+                    <td>город</td>
+                    <!--добавить current_user.city после реализации, или что-то другое-->
+                </tr>
+                <tr>
+                    <td class="active">Электронная почта:</td>
+                    <td>{{ current_user.email }}</td>
+                </tr>
+                <tr>
+                    <td class="active">Создано объявлений:</td>
+                    <td> Колличество объявлений </td>
+                </tr>
+                {% if current_user.is_authenticated %}
+                    <tr>
+                        <td>
+                            <a class="btn btn-primary" href="#">Редактировать</a><!-- Если можно будет заходить на чужой профиль -->
+                        </td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+{% endblock %}
