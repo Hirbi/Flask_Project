@@ -69,6 +69,11 @@ class EditProfileForm(FlaskForm):
     submit = SubmitField('Подтвердить изменения')
 
 
+class ConfirmPasswordForm(FlaskForm):
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    submit = SubmitField('Подтвердить')
+
+
 @app.route('/profile')
 @login_required
 def profile():
@@ -77,6 +82,21 @@ def profile():
     else:
         kolvo = len(str(current_user.objects).split('|, '))
     return render_template('profile_page.html', kolvo=kolvo, title=current_user.name)
+
+
+@app.route('/confirm_password/<int:id>',  methods=['GET', 'POST'])
+@login_required
+def confirm_password(id):
+    form = ConfirmPasswordForm()
+    sessions = db_session.create_session()
+    new = sessions.query(users.User).filter(users.User.id == id).first()
+    if form.validate_on_submit():
+        print(form.password, new.password)
+        if form.password.data == new.password:
+            return redirect(f'/edit_profile/{new.id}')
+        else:
+            return render_template('confirm_password.html', message='Неправильный пароль', form=form)
+    return render_template('confirm_password.html', form=form)
 
 
 @app.route('/obj/<int:id>', methods=['GET', 'POST'])
