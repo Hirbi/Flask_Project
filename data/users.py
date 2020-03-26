@@ -17,6 +17,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
     town = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     phone = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    avatar = sqlalchemy.Column(sqlalchemy.String, nullable=False, default='/static/img/new_logo.png')
     objects = orm.relation('Object', back_populates='user')
 
     def set_password(self, password):

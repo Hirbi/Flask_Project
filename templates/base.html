@@ -18,7 +18,10 @@
             {% if current_user.is_authenticated %}
                 <div>
                     <table align="right">
-                        <tr><td><div style="float: left;"><a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" href="/profile">{{current_user.name}}</a></div></td></tr>
+                        <tr>
+                            <td><div style="float: left;"><a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" href="/profile">{{current_user.name}}</a></div></td>
+                            <td><a href="/change_avatar"><img src="{{ current_user.avatar }}" height="50" width="50" title="Сменить аватарку"></a></td>
+                        </tr>
                         <tr>
                             <td>
                                 <a class="btn btn-success float-right" href="/add_obj">

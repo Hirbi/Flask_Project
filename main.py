@@ -74,6 +74,22 @@ class ConfirmPasswordForm(FlaskForm):
     submit = SubmitField('Подтвердить')
 
 
+@app.route('/change_avatar',  methods=['GET', 'POST'])
+@login_required
+def change_avatar():
+    session = db_session.create_session()
+    if request.method == 'POST':
+        file = request.files['file']
+        print(file)
+        filename = '/'.join(UPLOAD_FOLDER.split('\\')) + '/' + str(current_user.id) + '-' + file.filename
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        current_user.avatar = '../static/img/' + str(current_user.id) + '-' + file.filename
+        session.merge(current_user)
+        session.commit()
+    files = current_user.avatar
+    return render_template('change_avatar.html', files=files)
+
+
 @app.route('/profile')
 @login_required
 def profile():
