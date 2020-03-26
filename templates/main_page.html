@@ -1,46 +1,46 @@
 {% extends "base.html" %}
 
 {% block content %}
-<nav>
+<div style="width: 30%; float: left; margin-left: 2%;">
     <div class="d-flex p-2">
-        <div class="col-md-3 mb-md-0 mb-3">
-            <h3 class="alert alert-warning" role="alert"> Категории товаров </h3>
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-secondary">
+        <table class="table" width="100%">
+            <caption style="caption-side: top;"><h3 class="alert alert-warning" role="alert"> Категории товаров </h3></caption>
+            <tr class="list-group-item list-group-item-secondary">
+                <td>
                     <nav class="navbar navbar-light">
                         <form class="form-inline">
                             <input class="form-control mr-sm-2" type="search" placeholder="Поиск по категории" aria-label="Search">
                             <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Поиск</button>
                         </form>
                     </nav>
-                </li>
-                <li class="list-group-item list-group-item-secondary"> <a href="#!"><h4>Категория 1</h4></a> </li>
-                <li class="list-group-item list-group-item-secondary"> <a href="#!"><h4>Категория 2</h4></a> </li>
-                <li class="list-group-item list-group-item-secondary"> <a href="#!"><h4>Категория 3</h4></a> </li>
-                <li class="list-group-item list-group-item-secondary"> <a href="#!"><h4>Категория 4</h4></a> </li>
-                <li class="list-group-item list-group-item-secondary"> <a href="#!"><h4>и тд</h4></a> </li>
-            </ul>
-        </div>
+                </td>
+            </tr>
+            <tr class="list-group-item list-group-item-secondary"><td> <a href="#!"><h4>Категория 1</h4></a> </td></tr>
+            <tr class="list-group-item list-group-item-secondary"><td> <a href="#!"><h4>Категория 2</h4></a> </td></tr>
+            <tr class="list-group-item list-group-item-secondary"><td> <a href="#!"><h4>Категория 3</h4></a> </td></tr>
+            <tr class="list-group-item list-group-item-secondary"><td> <a href="#!"><h4>Категория 4</h4></a> </td></tr>
+            <tr class="list-group-item list-group-item-secondary"><td> <a href="#!"><h4>и тд</h4></a> </td></tr>
+        </table>
     </div>
-</nav>
-    <div style="width: 48%; float: left; margin-left: 2%;">
-            <table align="center" class="table">
-                {% for object in objects %}
+</div>
+<div class="d-flex p-2" style="width: 66%; margin-right: 2%;">
+    <div class="alert alert-secondary" role="alert" style="width: 100%;">
+        <table class="table" style="float: right; margin-left: 2%;">
+            {% for object in objects %}
+                {% if loop.index % 3 == 1 %}
                     <tr>
-                        <td width="25%">
-                            <a href="/obj/{{ object.id }}">
-                                Название товара: {{ object.name }}<br>
-                                Описание товара: {{ object.description }}
-                                Продавец: {{ object.user.name }}
-                            </a>
-                        </td>
-                        <td>
-                            <div class="item">
-                                <img src="{{ object.pictures.split()[0] }}" height="100" width="100" alt="Фотокарточка не добавлена">
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
+                {% endif %}
+                    <td width="25%">
+                        <div class="card" style="width: 18rem;">
+                            <img src="{{ object.pictures.split()[0] }}" class="card-img-top" alt="Фотокарточка не добавлена">
+                            <div class="card-body"></div>
+                                <h5 class="card-title">{{ object.name }}</h5>
+                                <p class="card-text">{{ object.description }}</p>
+                                <a href="/obj/{{ object.id }}" class="btn btn-primary">Перейти</a>
+                        </div>
+                    </td>
+            {% endfor %}
+        </table>
+    </div>
+</div>
 {% endblock %}
