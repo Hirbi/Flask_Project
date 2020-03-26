@@ -9,7 +9,6 @@ from werkzeug.utils import secure_filename
 import datetime
 import os
 
-
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['SECRET_KEY'] = 'asdads_secret_key'
@@ -60,10 +59,19 @@ class ObjectsForm(FlaskForm):
     submit = SubmitField('Сохранить')
 
 
+class EditProfileForm(FlaskForm):
+    new_name = StringField('Новое имя')
+    new_email = StringField("Новая почта")
+    new_password = StringField('Новый пароль')
+    new_password_again = StringField('Подтвердите новый пароль')
+    new_town = StringField('Новый город')
+    new_phone = StringField('Новый телефон')
+    submit = SubmitField('Подтвердить изменения')
+
+
 @app.route('/profile')
 @login_required
 def profile():
-    print(current_user.objects)
     if str(current_user.objects) == '[]':
         kolvo = 0
     else:
@@ -81,7 +89,8 @@ def show_obj(id):
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         if obj:
             if '../static/img/' + str(id) + '_' + file.filename not in obj.pictures:
-                obj.pictures = str(obj.pictures) + ' ' + '../static/img/' + str(id) + '_' + file.filename
+                obj.pictures = str(obj.pictures) + ' ' + '../static/img/' + str(
+                    id) + '_' + file.filename
                 session.merge(obj)
                 session.commit()
             print(file.filename)
@@ -90,6 +99,50 @@ def show_obj(id):
             return render_template('object_page.html', files=files)
     files = obj.pictures.split()
     return render_template('object_page.html', files=files)
+
+
+@app.route('/edit_profile/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_profile(id):
+    if str(current_user.objects) == '[]':
+        kolvo = 0
+    else:
+        kolvo = len(str(current_user.objects).split('|, '))
+    form = EditProfileForm()
+    if request.method == 'GET':
+        sessions = db_session.create_session()
+        new = sessions.query(users.User).filter(users.User.id == id).first()
+        if new:
+            form.new_name.data = new.name
+            form.new_email.data = new.email
+            form.new_password.data = new.password
+            form.new_town.data = new.town
+            form.new_phone.data = new.phone
+    if form.validate_on_submit():
+        sessions = db_session.create_session()
+        new = sessions.query(users.User).filter(users.User.id == id).first()
+        if new:
+            new.name = form.new_name.data
+            new.email = form.new_email.data
+            new.password = form.new_password.data
+            new.password_again = form.new_password_again.data
+            new.town = form.new_town.data
+            new.phone = form.new_phone.data
+            if new.password != new.password_again:
+                return render_template('edit_profile.html', name=current_user.name,
+                                       email=current_user.email,
+                                       password=current_user.password, town=current_user.town,
+                                       phone=current_user.phone, message='Пароли не совпадают',
+                                       title='Редактирование профиля', form=form)
+            else:
+                sessions.commit()
+                return redirect('/profile')
+        else:
+            abort(404)
+    return render_template('edit_profile.html', name=current_user.name, email=current_user.email,
+                           password=current_user.password, town=current_user.town,
+                           phone=current_user.phone,
+                           kolvo=kolvo, title='Редактирование профиля', form=form)
 
 
 @app.route('/add_obj', methods=['GET', 'POST'])

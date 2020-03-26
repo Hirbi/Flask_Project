@@ -40,16 +40,26 @@
                     </td>
                 </tr>
                 <tr>
+                    <td class="active">Электронная почта:</td>
+                    <td>{{ current_user.email }}</td>
+                </tr>
+                {% if current_user.is_authenticated %}
+                    <tr>
+                        <td>Пароль:</td>
+                        <td>{{ current_user.password }}</td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td class="active">Номер телефона:</td>
+                    <td>{{ current_user.phone }}</td>
+                </tr>
+                <tr>
                     <td class="active">Город:</td>
                     {% if current_user.town == None %}
                         <td>Не указан</td>
                     {% else %}
                         <td>{{ current_user.town }}</td>
                     {% endif %}
-                </tr>
-                <tr>
-                    <td class="active">Электронная почта:</td>
-                    <td>{{ current_user.email }}</td>
                 </tr>
                 <tr>
                     <td class="active">Создано объявлений:</td>
@@ -66,7 +76,7 @@
                 {% if current_user.is_authenticated %}
                     <tr>
                         <td>
-                            <a class="btn btn-primary" href="#">Редактировать</a>
+                            <a class="btn btn-primary" href="/edit_profile/{{ current_user.id }}">Редактировать</a>
                         </td>
                     </tr>
                 {% endif %}
