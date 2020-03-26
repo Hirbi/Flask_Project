@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<nav>
     <div class="d-flex p-2">
         <div class="col-md-3 mb-md-0 mb-3">
             <h3 class="alert alert-warning" role="alert"> Категории товаров </h3>
@@ -21,4 +22,25 @@
             </ul>
         </div>
     </div>
+</nav>
+    <div style="width: 48%; float: left; margin-left: 2%;">
+            <table align="center" class="table">
+                {% for object in objects %}
+                    <tr>
+                        <td width="25%">
+                            <a href="/obj/{{ object.id }}">
+                                Название товара: {{ object.name }}<br>
+                                Описание товара: {{ object.description }}
+                                Продавец: {{ object.user.name }}
+                            </a>
+                        </td>
+                        <td>
+                            <div class="item">
+                                <img src="{{ object.pictures.split()[0] }}" height="100" width="100" alt="Фотокарточка не добавлена">
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
 {% endblock %}

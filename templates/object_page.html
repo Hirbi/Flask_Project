@@ -34,14 +34,16 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-    <div align="center">
-        <form action="" class="login_form" method=post enctype=multipart/form-data>
-            <div class="form-group">
-                <label for="photo">Приложите фотографию</label>
-                <input type="file" class="form-control-file" id="photo" name="file">
-            </div>
-        <button type="submit" class="btn btn-primary">Отправить</button>
-        </form>
-    </div>
+    {% if current_user.id == author or current_user.id == 1%}
+        <div align="center">
+            <form action="" class="login_form" method=post enctype=multipart/form-data>
+                <div class="form-group">
+                    <label for="photo">Приложите фотографию</label>
+                    <input type="file" class="form-control-file" id="photo" name="file">
+                </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        </div>
+    {% endif %}
 
 {% endblock %}

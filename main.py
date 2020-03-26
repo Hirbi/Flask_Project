@@ -93,12 +93,10 @@ def show_obj(id):
                     id) + '_' + file.filename
                 session.merge(obj)
                 session.commit()
-            print(file.filename)
             files = obj.pictures.split()
-            print(files)
             return render_template('object_page.html', files=files)
     files = obj.pictures.split()
-    return render_template('object_page.html', files=files)
+    return render_template('object_page.html', files=files, author=obj.user.id)
 
 
 @app.route('/edit_profile/<int:id>', methods=['GET', 'POST'])
@@ -210,7 +208,10 @@ def reqister():
 @app.route('/')
 @app.route('/index')
 def main_page():
-    return render_template('main_page.html', current_user=current_user, title='TradeHub')
+    session = db_session.create_session()
+    objs = session.query(objects.Object).all()
+    print(objs)
+    return render_template('main_page.html', current_user=current_user, title='TradeHub', objects=objs)
 
 
 if __name__ == '__main__':
