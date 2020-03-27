@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Добавление новости</h1>
+<h1>Новое объявление</h1>
 <form action="" method="post">
     {{ form.hidden_tag() }}
     {{ form.csrf_token }}
@@ -11,6 +11,15 @@
         {% for error in form.name.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.price.label }} <br>
+        {{ form.price(class="form-control") }} <br>
+        {% for error in form.price.errors %}
+            <p class="alert alert-danger" role="alert">
+                Укажите корректную цену
             </p>
         {% endfor %}
     </p>

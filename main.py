@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, request, make_response, sess
 from flask_wtf import FlaskForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, FileField
+from wtforms import IntegerField
 from wtforms.validators import DataRequired
 from flask import Flask, render_template
 from data import db_session, objects, users
@@ -55,6 +56,7 @@ class LoginForm(FlaskForm):
 
 class ObjectsForm(FlaskForm):
     name = StringField('Название', validators=[DataRequired()])
+    price = IntegerField('Цена', validators=[DataRequired()])
     description = TextAreaField('Описание', validators=[DataRequired()])
     submit = SubmitField('Сохранить')
 
@@ -125,6 +127,7 @@ def profile():
 @app.route('/confirm_password/<int:id>',  methods=['GET', 'POST'])
 @login_required
 def confirm_password(id):
+    print(current_user.is_authenticated)
     form = ConfirmPasswordForm()
     sessions = db_session.create_session()
     new = sessions.query(users.User).filter(users.User.id == id).first()
@@ -207,6 +210,7 @@ def add_obj():
         sessions = db_session.create_session()
         obj = objects.Object()
         obj.name = form.name.data
+        obj.price = form.price.data
         obj.description = form.description.data
         current_user.objects.append(obj)
         sessions.merge(current_user)
