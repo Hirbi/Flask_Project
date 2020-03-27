@@ -10,57 +10,51 @@
         <link rel="stylesheet" href="../static/css/footer_down.css">
     <title>{{ title }}</title>
 </head>
-<body> <!--background="../static/img/back.jpg"-->
+<body style="background-color: #E4DBBF;"> <!--background="../static/img/back.jpg"-->
 <div id="page-wrap">
-    <header>
-        <div>
-            <nav class="navbar navbar-light bg-warning">
-                <a class="navbar-brand" href="/index"><h1>Тут должен быть логотип</h1></a>
+    <header style="background-color: #333;">
                 <!-- Если пользователь авторизован -->
+        <a class="navbar-brand" href="/index" style="color: #ffa500;">
+            <div style="margin-left: 10%; text-decoration: none;">
+                <table>
+                    <tr style="margin-left: 10%;">
+                        <td>
+                            <div style="float: left;">
+                                <img height="160" width="184" src="../static/img/logo.png">
+                            </div>
+                        </td>
+                        <td><h1><a class="navbar-brand" href="/index" style="color: #ffa500;"><h1>Dino</h1></a><a class="navbar-brand" href="/index" style="color: #ffffff;"><h1>Trade</h1></a></h1></td>
+                    </tr>
+                </table>
+            </div>
+        </a>
                 {% if current_user.is_authenticated %}
-                    <div>
-                        <table align="right">
-                            <tr>
-                                <td><div style="float: left;"><a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" href="/profile">{{current_user.name}}</a></div></td>
-                                <td><a href="/change_avatar"><img style="border-radius: 10px;" src="{{ current_user.avatar }}" height="50" width="50" title="Сменить аватарку"></a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a class="btn btn-success float-right" href="/add_obj">
-                                    Подать объявление
-                                    </a>
-                                </td>
-                                <td>
-                                    <a class="btn btn-danger float-right" href="/logout">
-                                        Выйти
-                                    </a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                    <table align="right">
+                        <tr>
+                            <td><div style="float: left;"><a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" href="/profile">{{current_user.name}}</a></div></td>
+                            <td><a href="/change_avatar"><img style="border-radius: 10px;" src="{{ current_user.avatar }}" height="50" width="50" title="Сменить аватарку"></a></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a class="btn btn-success float-right" href="/add_obj">
+                                Подать объявление
+                                </a>
+                            </td>
+                            <td>
+                                <a class="btn btn-danger float-right" href="/logout">
+                                    Выйти
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
                 {% else %}
-                    <p>
-                        <a class="btn btn-primary" href="/register">Зарегистрироваться</a>
-                        <a class="btn btn-success" href="/login">Войти</a>
-                    </p>
+                    <table align="right">
+                        <tr>
+                            <td><a class="btn btn-primary" href="/register">Зарегистрироваться</a></td>
+                            <td><a class="btn btn-success" href="/login">Войти</a></td>
+                        </tr>
+                    </table>
                 {% endif %}
-            </nav>
-            <nav class="navbar navbar-expand-lg navbar-light bg-warning">
-                  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav ml-left">
-                      <li class="nav-item active">
-                        <a class="nav-link" href="/index">На главную<span class="sr-only">(current)</span></a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Отзывы о проекте</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Сотрудничество</a>
-                      </li>
-                    </ul>
-                  </div>
-            </nav>
-        </div>
     </header>
     <main>
         {% block content %}{% endblock %}

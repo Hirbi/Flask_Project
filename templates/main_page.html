@@ -7,7 +7,7 @@
             <caption style="caption-side: top;"><h3 class="alert alert-warning" role="alert"> Категории товаров </h3></caption>
             <tr class="list-group-item list-group-item-secondary">
                 <td>
-                    <nav class="navbar navbar-light">
+                    <nav class="navbar navbar-success">
                         <form class="form-inline">
                             <input class="form-control mr-sm-2" type="search" placeholder="Поиск по категории" aria-label="Search">
                             <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Поиск</button>
@@ -35,7 +35,7 @@
                             <img src="{{ object.pictures.split()[0] }}" class="card-img-top" alt="Фотокарточка не добавлена">
                             <div class="card-body"></div>
                                 <h5 class="card-title">{{ object.name }}</h5>
-                                <p class="card-text">{{ object.description }}</p>
+                                <p class="card-text bg-light">{{ object.description }}</p>
                                 <a href="/obj/{{ object.id }}" class="btn btn-primary">Перейти</a>
                         </div>
                     </td>

@@ -62,8 +62,8 @@ class ObjectsForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     new_name = StringField('Новое имя')
     new_email = StringField("Новая почта")
-    new_password = StringField('Новый пароль')
-    new_password_again = StringField('Подтвердите новый пароль')
+    new_password = PasswordField('Новый пароль')
+    new_password_again = PasswordField('Подтвердите новый пароль')
     new_town = StringField('Новый город')
     new_phone = StringField('Новый телефон')
     submit = SubmitField('Подтвердить изменения')
@@ -87,7 +87,7 @@ def change_avatar():
         session.merge(current_user)
         session.commit()
     files = current_user.avatar
-    return render_template('change_avatar.html', files=files)
+    return render_template('change_avatar.html', title='Смена аватарки', files=files)
 
 
 @app.route('/profile')
@@ -111,8 +111,8 @@ def confirm_password(id):
         if form.password.data == new.password:
             return redirect(f'/edit_profile/{new.id}')
         else:
-            return render_template('confirm_password.html', message='Неправильный пароль', form=form)
-    return render_template('confirm_password.html', form=form)
+            return render_template('confirm_password.html', message='Неправильный пароль', title='Подтверждение пароля',form=form)
+    return render_template('confirm_password.html', title='Подтверждение пароля', form=form)
 
 
 @app.route('/obj/<int:id>', methods=['GET', 'POST'])
@@ -192,7 +192,7 @@ def add_obj():
         sessions.merge(current_user)
         sessions.commit()
         return redirect('/')
-    return render_template('add_objects.html', title='Добавление новости', form=form, files=files)
+    return render_template('add_objects.html', title='Новое объявление', form=form, files=files)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -204,8 +204,8 @@ def login():
         if user and user.password == form.password.data:
             login_user(user, remember=form.remember_me.data)
             return redirect('/')
-        return render_template('login.html', message='Неправильный логин или пароль', form=form)
-    return render_template('login.html', form=form)
+        return render_template('login.html', message='Неправильный логин или пароль', title='Вход', form=form)
+    return render_template('login.html', title='Вход', form=form)
 
 
 @app.route('/logout')
@@ -220,12 +220,12 @@ def reqister():
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
             return render_template('register.html',
-                                   form=form,
+                                   form=form, title='Регистрация',
                                    message="Пароли не совпадают")
         sessions = db_session.create_session()
         if sessions.query(users.User).filter(users.User.email == form.email.data).first():
             return render_template('register.html',
-                                   form=form,
+                                   form=form, title='Регистрация',
                                    message="Такой пользователь уже есть")
         user = users.User(
             name=form.name.data,
@@ -238,7 +238,7 @@ def reqister():
         sessions.add(user)
         sessions.commit()
         return redirect('/login')
-    return render_template('register.html', form=form)
+    return render_template('register.html', title='Регистрация', form=form)
 
 
 @app.route('/')
@@ -247,7 +247,7 @@ def main_page():
     session = db_session.create_session()
     objs = session.query(objects.Object).all()
     print(objs)
-    return render_template('main_page.html', current_user=current_user, title='TradeHub', objects=objs)
+    return render_template('main_page.html', current_user=current_user, title='DinoTrade', objects=objs)
 
 
 if __name__ == '__main__':
