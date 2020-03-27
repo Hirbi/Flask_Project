@@ -89,7 +89,7 @@ def open_file(id, type, filename=''):
         filename = path_of_folder + file.filename
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         return filename
-    if type == 'object_photo':
+    if type == 'object':
         file = request.files['file']
         path_of_folder = '/'.join(UPLOAD_FOLDER.split('\\')) + '/object_' + str(id) + '/'
         try:
@@ -98,7 +98,7 @@ def open_file(id, type, filename=''):
             pass
         filename = path_of_folder + file.filename
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return file, '/'.join(filename.split('/')[-4:])
+        return file, '../' + '/'.join(filename.split('/')[-4:])
 
 
 @app.route('/change_avatar',  methods=['GET', 'POST'])
@@ -107,7 +107,7 @@ def change_avatar():
     if request.method == 'POST':
         session = db_session.create_session()
         filename = open_file(current_user.id, 'avatar')
-        current_user.avatar = '/'.join(filename.split('/')[-4:])
+        current_user.avatar = '../' + '/'.join(filename.split('/')[-4:])
         session.merge(current_user)
         session.commit()
     files = current_user.avatar
@@ -152,10 +152,9 @@ def show_obj(id):
         # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         if obj:
             if filename not in obj.pictures:
-                obj.pictures = str(obj.pictures) + filename
+                obj.pictures = str(obj.pictures) + filename + ' '
                 session.merge(obj)
                 session.commit()
-            files = obj.pictures.split()
     files = obj.pictures.split()
     return render_template('object_page.html', files=files, author=obj.user.id)
 

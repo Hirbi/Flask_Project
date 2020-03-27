@@ -14,13 +14,13 @@
             {% endfor %}
         </ol>
 
-        <div class="carousel-inner" height="400" width="200">
+        <div class="carousel-inner" height="400" width="400">
             <div class="item active">
-                <img src="/static/img/new_logo.png" height="500" width="500">
+                <img src="/static/img/new_logo.png" height="400" width="400" style="width: 100%; height: 100%;">
             </div>
             {% for file in files %}
                 <div class="item">
-                    <img src="{{ file }}" height="500" width="500">
+                    <img src="{{ file }}" height="400" width="400" style="width: 100%; height: 100%;">
                 </div>
             {% endfor %}
         </div>
