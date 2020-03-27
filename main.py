@@ -74,19 +74,41 @@ class ConfirmPasswordForm(FlaskForm):
     submit = SubmitField('Подтвердить')
 
 
+def open_file(id, type, filename=''):
+    if type == 'avatar':
+        file = request.files['file']
+        path_of_folder = '/'.join(UPLOAD_FOLDER.split('\\')) + '/avatar_' + str(id) + '/'
+        try:
+            os.mkdir(path_of_folder)
+        except FileExistsError:
+            pass
+        filename = path_of_folder + file.filename
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return filename
+    if type == 'object_photo':
+        file = request.files['file']
+        path_of_folder = '/'.join(UPLOAD_FOLDER.split('\\')) + '/object_' + str(id) + '/'
+        try:
+            os.mkdir(path_of_folder)
+        except FileExistsError:
+            pass
+        filename = path_of_folder + file.filename
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return file, '/'.join(filename.split('/')[-4:])
+
+
 @app.route('/change_avatar',  methods=['GET', 'POST'])
 @login_required
 def change_avatar():
-    session = db_session.create_session()
     if request.method == 'POST':
-        file = request.files['file']
-        print(file)
-        filename = '/'.join(UPLOAD_FOLDER.split('\\')) + '/' + str(current_user.id) + '-' + file.filename
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        current_user.avatar = '../static/img/' + str(current_user.id) + '-' + file.filename
+        session = db_session.create_session()
+        filename = open_file(current_user.id, 'avatar')
+        current_user.avatar = '/'.join(filename.split('/')[-4:])
         session.merge(current_user)
         session.commit()
     files = current_user.avatar
+    print("/", files, '/')
+    print(files)
     return render_template('change_avatar.html', title='Смена аватарки', files=files)
 
 
@@ -119,17 +141,16 @@ def show_obj(id):
     session = db_session.create_session()
     obj = session.query(objects.Object).filter(objects.Object.id == id).first()
     if request.method == 'POST':
-        file = request.files['file']
-        filename = '/'.join(UPLOAD_FOLDER.split('\\')) + '/' + str(id) + '_' + file.filename
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        file, filename = open_file(id, 'object', 's')
+        # file = request.files['file']
+        # filename = '/'.join(UPLOAD_FOLDER.split('\\')) + '/' + str(id) + '_' + file.filename
+        # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         if obj:
-            if '../static/img/' + str(id) + '_' + file.filename not in obj.pictures:
-                obj.pictures = str(obj.pictures) + ' ' + '../static/img/' + str(
-                    id) + '_' + file.filename
+            if filename not in obj.pictures:
+                obj.pictures = str(obj.pictures) + filename
                 session.merge(obj)
                 session.commit()
             files = obj.pictures.split()
-            return render_template('object_page.html', files=files)
     files = obj.pictures.split()
     return render_template('object_page.html', files=files, author=obj.user.id)
 
