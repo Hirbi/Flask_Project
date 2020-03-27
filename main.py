@@ -62,8 +62,8 @@ class ObjectsForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     new_name = StringField('Новое имя')
     new_email = StringField("Новая почта")
-    new_password = PasswordField('Новый пароль')
-    new_password_again = PasswordField('Подтвердите новый пароль')
+    new_password = StringField('Новый пароль')
+    new_password_again = StringField('Подтвердите новый пароль')
     new_town = StringField('Новый город')
     new_phone = StringField('Новый телефон')
     submit = SubmitField('Подтвердить изменения')
@@ -107,7 +107,6 @@ def confirm_password(id):
     sessions = db_session.create_session()
     new = sessions.query(users.User).filter(users.User.id == id).first()
     if form.validate_on_submit():
-        print(form.password, new.password)
         if form.password.data == new.password:
             return redirect(f'/edit_profile/{new.id}')
         else:
