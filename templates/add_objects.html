@@ -2,37 +2,56 @@
 
 {% block content %}
 <h1>Новое объявление</h1>
-<form action="" method="post">
-    {{ form.hidden_tag() }}
-    {{ form.csrf_token }}
-    <p>
-        {{ form.name.label }} <br>
-        {{ form.name(class="form-control") }} <br>
-        {% for error in form.name.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
+<div class="d-flex p-2">
+    <div class="alert alert-warning" role="alert" style="width: 50%;">
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            {{ form.csrf_token }}
+            <p style="width: 50%;">
+                {{ form.name.label }} <br>
+                {{ form.name(class="form-control") }} <br>
+                {% for error in form.name.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
             </p>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.price.label }} <br>
-        {{ form.price(class="form-control") }} <br>
-        {% for error in form.price.errors %}
-            <p class="alert alert-danger" role="alert">
-                Укажите корректную цену
+            <p style="width: 50%;">
+                {{ form.category.label }} <br>
+                {% for subfield in form.category %}
+                    <p>{{ subfield }} {{ subfield.label }}</p>
+                {% endfor %}
+                {% for error in form.category.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
             </p>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.description.label }} <br>
-        {{ form.description(class="form-control") }} <br>
-        {% for error in form.description.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
+            <p style="width: 20%;">
+                {{ form.price.label }} <br>
+                {{ form.price(class="form-control") }} <br>
+                {% for error in form.price.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        Укажите корректную цену
+                    </p>
+                {% endfor %}
             </p>
-        {% endfor %}
-    </p>
-    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-    {{ message }}
-</form>
+            <p>
+                {{ form.description.label }} <br>
+                {{ form.description(class="form-control") }} <br>
+                {% for error in form.description.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+            </p>
+            <div class="form-group">
+                <label for="photo">Приложите фотографию</label>
+                <input type="file" class="form-control-file" id="photo" name="file">
+            </div>
+            <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+            {{ message }}
+        </form>
+    </div>
+</div>
 {% endblock %}

@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, request, make_response, sess
 from flask_wtf import FlaskForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, FileField
-from wtforms import IntegerField
+from wtforms import IntegerField, RadioField
 from wtforms.validators import DataRequired
 from flask import Flask, render_template
 from data import db_session, objects, users
@@ -55,7 +55,9 @@ class LoginForm(FlaskForm):
 
 
 class ObjectsForm(FlaskForm):
+    categories_arr = [('Одежда', 'Одежда'), ('Техника', 'Техника'), ('Мебель', 'Мебель'), ('Животные', 'Животные'), ('Другое', 'Другое')]  #список с категориями который работает НЕПОНЯТНО НО РАБОТАЕТ
     name = StringField('Название', validators=[DataRequired()])
+    category = RadioField('Выберите категорию товара', choices=categories_arr, validators=[DataRequired()])
     price = IntegerField('Цена', validators=[DataRequired()])
     description = TextAreaField('Описание', validators=[DataRequired()])
     submit = SubmitField('Сохранить')
@@ -212,6 +214,7 @@ def add_obj():
         obj.name = form.name.data
         obj.price = form.price.data
         obj.description = form.description.data
+        obj.category = form.category.data
         current_user.objects.append(obj)
         sessions.merge(current_user)
         sessions.commit()
