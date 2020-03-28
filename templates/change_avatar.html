@@ -1,16 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="item">
-    <img src="{{ files }}" height="400" width="400">
-</div>
-<div align="center">
-    <form action="" class="login_form" method=post enctype=multipart/form-data>
-        <div class="form-group">
-            <label for="photo">Приложите фотографию</label>
-            <input type="file" class="form-control-file" id="photo" name="file">
-        </div>
-    <button type="submit" class="btn btn-primary">Отправить</button>
-    </form>
-</div>
+<h1 align="center">Смена аватарки</h1>
+<div class="alert alert-warning" role="alert" style="border-radius: 50px 50px 50px 50px; width: 30%; margin: 0 auto;">
+    <table align="center">
+        <tr>
+            <td>
+                <div class="item">
+                    <img src="{{ files }}" height="400" width="400">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="item">
+                    Header style <img style="border-radius: 10px;" src="{{ files }}" height="50" width="50">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div align="center">
+                    <form action="" class="login_form" method=post enctype=multipart/form-data>
+                        <div class="form-group">
+                            <label for="photo">Приложите фотографию</label>
+                            <input type="file" class="form-control-file" id="photo" name="file">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Сменить аватарку</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    </table>
 {% endblock %}

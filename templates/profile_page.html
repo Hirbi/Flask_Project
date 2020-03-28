@@ -43,12 +43,6 @@
                     <td class="active">Электронная почта:</td>
                     <td>{{ current_user.email }}</td>
                 </tr>
-                {% if current_user.is_authenticated %}
-                    <tr>
-                        <td>Пароль:</td>
-                        <td>{{ current_user.password }}</td>
-                    </tr>
-                {% endif %}
                 <tr>
                     <td class="active">Номер телефона:</td>
                     <td>{{ current_user.phone }}</td>
@@ -72,6 +66,10 @@
                     {% else %}
                         <td> {{current_user.rating}} </td>
                     {% endif %}
+                </tr>
+                <tr>
+                    <td class="active">Аватарочка:</td>
+                    <td class="active"><img style="border-radius: 10px;" src="{{ files }}" height="100" width="100"></td>
                 </tr>
                 {% if current_user.is_authenticated %}
                     <tr>

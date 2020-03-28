@@ -119,11 +119,18 @@ def change_avatar():
 @app.route('/profile')
 @login_required
 def profile():
+    if request.method == 'POST':
+        session = db_session.create_session()
+        filename = open_file(current_user.id, 'avatar')
+        current_user.avatar = '../' + '/'.join(filename.split('/')[-4:])
+        session.merge(current_user)
+        session.commit()
+    files = current_user.avatar
     if str(current_user.objects) == '[]':
         kolvo = 0
     else:
         kolvo = len(str(current_user.objects).split('|, '))
-    return render_template('profile_page.html', kolvo=kolvo, title=current_user.name)
+    return render_template('profile_page.html', kolvo=kolvo, title=current_user.name, files=files)
 
 
 @app.route('/confirm_password/<int:id>',  methods=['GET', 'POST'])
