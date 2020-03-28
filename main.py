@@ -78,7 +78,7 @@ class ConfirmPasswordForm(FlaskForm):
     submit = SubmitField('Подтвердить')
 
 
-def open_file(id, type, filename=''):
+def open_file(id, type):
     if type == 'avatar':
         file = request.files['file']
         path_of_folder = '/'.join(UPLOAD_FOLDER.split('\\')) + '/avatar_' + str(id) + '/'
@@ -146,7 +146,7 @@ def show_obj(id):
     session = db_session.create_session()
     obj = session.query(objects.Object).filter(objects.Object.id == id).first()
     if request.method == 'POST':
-        file, filename = open_file(id, 'object', 's')
+        file, filename = open_file(id, 'object')
         # file = request.files['file']
         # filename = '/'.join(UPLOAD_FOLDER.split('\\')) + '/' + str(id) + '_' + file.filename
         # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
