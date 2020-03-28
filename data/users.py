@@ -18,6 +18,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     town = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     phone = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     avatar = sqlalchemy.Column(sqlalchemy.String, nullable=False, default='/static/img/new_logo.png')
+    admin = sqlalchemy.Column(sqlalchemy.Integer, default=0)
     objects = orm.relation('Object', back_populates='user')
 
     def set_password(self, password):

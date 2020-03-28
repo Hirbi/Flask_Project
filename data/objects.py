@@ -17,6 +17,8 @@ class Object(SqlAlchemyBase, UserMixin, SerializerMixin):
     pictures = sqlalchemy.Column(sqlalchemy.String, nullable=True, default=' ')
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     sold = sqlalchemy.Column(sqlalchemy.Boolean, nullable=False, default=False)
+    block = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+    why_block = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     user = orm.relation('User')
 
     def __repr__(self):
