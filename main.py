@@ -268,12 +268,12 @@ def reqister():
 
 
 @app.route('/')
-@app.route('/index')
-def main_page():
+@app.route('/index/<category>')
+def main_page(category='Всекатегории'):
     session = db_session.create_session()
     objs = session.query(objects.Object).all()
     print(objs)
-    return render_template('main_page.html', current_user=current_user, title='DinoTrade', objects=objs)
+    return render_template('main_page.html', category=category, current_user=current_user, title='DinoTrade', objects=objs)
 
 
 if __name__ == '__main__':

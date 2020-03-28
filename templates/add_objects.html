@@ -28,7 +28,7 @@
                 {% endfor %}
             </p>
             <p style="width: 20%;">
-                {{ form.price.label }} <br>
+                {{ form.price.label }} в рублях <br>
                 {{ form.price(class="form-control") }} <br>
                 {% for error in form.price.errors %}
                     <p class="alert alert-danger" role="alert">
