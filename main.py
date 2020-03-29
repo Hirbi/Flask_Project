@@ -268,6 +268,7 @@ def add_obj():
         sessions = db_session.create_session()
         obj = objects.Object()
         obj.name = form.name.data
+        obj.name_for_find = form.name.data.lower()
         obj.price = form.price.data
         obj.description = form.description.data
         obj.category = form.category.data
@@ -326,23 +327,20 @@ def reqister():
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index/<category>', methods=['GET', 'POST'])
-def main_page(category="Всекатегории"):
+def main_page(category='Всекатегории'):
     form = FindObjectForm()
     sessions = db_session.create_session()
-    objs = sessions.query(objects.Object).all()
     what_we_want_to_find = ''
-    names = []
-    find = False
     if form.find_line.data:
-        what_we_want_to_find = form.find_line.data.lower()
+        what_we_want_to_find = form.find_line.data
     if request.method == 'GET':
+        objs = sessions.query(objects.Object).all()
         return render_template('main_page.html', category=category, current_user=current_user,
                                title='DinoTrade', objects=objs, form=form,
                                name='', find=False)
     if form.validate_on_submit():
-        find = True
-        names = list(map(lambda x: list(x[0].lower()), sessions.query(objects.Object.name).filter().all()))
-    return render_template('main_page.html', category=category, current_user=current_user, title='DinoTrade', objects=objs, form=form, name=check_coincidences(list(what_we_want_to_find), names), find=find)
+        objs = sessions.query(objects.Object).filter(objects.Object.name_for_find.like(f'%{what_we_want_to_find}%'))
+        return render_template('main_page.html', category=category, current_user=current_user, title='DinoTrade', objects=objs, form=form)
 
 
 if __name__ == '__main__':
