@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100%;">
 <head>
     <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,10 +7,9 @@
               href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
-        <link rel="stylesheet" href="../static/css/footer_down.css">
     <title>{{ title }}</title>
 </head>
-<body style="background-color: #E4DBBF;"> <!--background="../static/img/back.jpg"-->
+<body style="background-color: #E4DBBF; min-height: 100%; display: grid; grid-template-rows: 1fr auto;"> <!--background="../static/img/back.jpg"-->
 <div id="page-wrap">
     <header style="background-color: #333;">
                 <!-- Если пользователь авторизован -->
@@ -60,7 +59,7 @@
         {% block content %}{% endblock %}
     </main>
 </div>
-<div class="page-footer font-small blue pt-4" style="background-color: #333;">  <!-- footer -->
+<footer class="page-footer font-small blue pt-4" style="background-color: #333; grid-row-start: 2; grid-row-end: 3;">  <!-- footer -->
     <table align="center" cellpadding="20">
         <caption style="caption-side: top;"><h6 align="center"> Советуем заглянуть =) </h6></caption>
         <tr>
@@ -79,10 +78,10 @@
         </tr>
         <caption>
             <div class="footer-copyright text-center py-3">© 2020 Copyright:
-                <h6 href="/index"> DinoTrade</h6>
+                <h6>DinoTrade</h6>
             </div>
         </caption>
     </table>
-</div>
+</footer>
 </body>
 </html>

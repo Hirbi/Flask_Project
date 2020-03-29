@@ -75,7 +75,7 @@ class EditProfileForm(FlaskForm):
 
 
 class FindObjectForm(FlaskForm):
-    find_line = StringField('Поиск по названию')
+    find_line = StringField('Поиск по названию', validators=[DataRequired()])
     find_button = SubmitField('Найти')
 
 
