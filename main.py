@@ -3,12 +3,13 @@ from flask_wtf import FlaskForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, FileField
 from wtforms import IntegerField, RadioField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length
 from flask import Flask, render_template
 from data import db_session, objects, users
 from werkzeug.utils import secure_filename
 import datetime
 import os
+from algorithms import check_coincidences
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
@@ -41,7 +42,7 @@ class RegisterForm(FlaskForm):
     email = StringField('Почта', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
-    name = StringField('Имя пользователя', validators=[DataRequired()])
+    name = StringField('Имя пользователя', validators=[DataRequired(), Length(min=3, max=15)])
     town = StringField('Город', validators=[DataRequired()])
     phone = StringField('Телефон', validators=[DataRequired()])
     submit = SubmitField('Зарегистрироваться')
@@ -71,6 +72,11 @@ class EditProfileForm(FlaskForm):
     new_town = StringField('Новый город')
     new_phone = StringField('Новый телефон')
     submit = SubmitField('Подтвердить изменения')
+
+
+class FindObjectForm(FlaskForm):
+    find_line = StringField('Поиск по названию')
+    find_button = SubmitField('Найти')
 
 
 class ConfirmPasswordForm(FlaskForm):
@@ -274,13 +280,26 @@ def reqister():
     return render_template('register.html', title='Регистрация', form=form)
 
 
-@app.route('/')
-@app.route('/index/<category>')
-def main_page(category='Всекатегории'):
-    session = db_session.create_session()
-    objs = session.query(objects.Object).all()
-    print(objs)
-    return render_template('main_page.html', category=category, current_user=current_user, title='DinoTrade', objects=objs)
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index/<category>', methods=['GET', 'POST'])
+def main_page(category="Всекатегории"):
+    form = FindObjectForm()
+    sessions = db_session.create_session()
+    objs = sessions.query(objects.Object).all()
+    what_we_want_to_find = ''
+    names = []
+    find = False
+    if form.find_line.data:
+        what_we_want_to_find = form.find_line.data.lower()
+    if request.method == 'GET':
+        return render_template('main_page.html', category=category, current_user=current_user,
+                               title='DinoTrade', objects=objs, form=form,
+                               name='', find=False)
+    if form.validate_on_submit():
+        find = True
+        names = list(map(lambda x: list(x[0].lower()), sessions.query(objects.Object.name).all()))
+        print(check_coincidences(list(what_we_want_to_find), names))
+    return render_template('main_page.html', category=category, current_user=current_user, title='DinoTrade', objects=objs, form=form, name=check_coincidences(list(what_we_want_to_find), names), find=find)
 
 
 if __name__ == '__main__':

@@ -11,6 +11,19 @@
             <tr>
                 <td>
                     <p>
+                        {{ form.name.label }}<br>
+                        {{ form.name(class="form-control") }}<br>
+                        {% for error in form.name.errors %}
+                            <p class="alert alert-danger" role="alert">
+                                Имя пользователя должно составлять не менее 3 и не более 15 символов
+                            </p>
+                        {% endfor %}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
                         {{ form.email.label }}<br>
                         {{ form.email(class="form-control", type="email") }}<br>
                         {% for error in form.email.errors %}
@@ -40,19 +53,6 @@
                         {{ form.password_again.label }}<br>
                         {{ form.password_again(class="form-control", type="password") }}<br>
                         {% for error in form.password_again.errors %}
-                            <p class="alert alert-danger" role="alert">
-                                {{ error }}
-                            </p>
-                        {% endfor %}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p>
-                        {{ form.name.label }}<br>
-                        {{ form.name(class="form-control") }}<br>
-                        {% for error in form.name.errors %}
                             <p class="alert alert-danger" role="alert">
                                 {{ error }}
                             </p>
