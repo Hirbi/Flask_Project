@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Новое объявление</h1>
+<h1>Объявление</h1>
 <div class="d-flex p-2">
     <div class="alert alert-warning" role="alert" style="width: 50%;">
         <form action="" method="post">
             {{ form.hidden_tag() }}
-            {{ form.csrf_token }}
             <p style="width: 50%;">
                 {{ form.name.label }} <br>
-                {{ form.name(class="form-control") }} <br>
+                {{ form.name }} <br>
                 {% for error in form.name.errors %}
                     <p class="alert alert-danger" role="alert">
                         {{ error }}
@@ -29,7 +28,7 @@
             </p>
             <p style="width: 20%;">
                 {{ form.price.label }} в рублях <br>
-                {{ form.price(class="form-control") }} <br>
+                {{ form.price }} <br>
                 {% for error in form.price.errors %}
                     <p class="alert alert-danger" role="alert">
                         Укажите корректную цену
@@ -38,17 +37,13 @@
             </p>
             <p>
                 {{ form.description.label }} <br>
-                {{ form.description(class="form-control") }} <br>
+                {{ form.description }} <br>
                 {% for error in form.description.errors %}
                     <p class="alert alert-danger" role="alert">
                         {{ error }}
                     </p>
                 {% endfor %}
             </p>
-            <div class="form-group">
-                <label for="photo">Приложите фотографию</label>
-                <input type="file" class="form-control-file" id="photo" name="file">
-            </div>
             <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
             {{ message }}
         </form>

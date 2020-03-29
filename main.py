@@ -107,6 +107,50 @@ def open_file(id, type):
         return file, '../' + '/'.join(filename.split('/')[-4:])
 
 
+@app.route('/object_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def object_delete(id):
+    sessions = db_session.create_session()
+    obj = sessions.query(objects.Object).filter(
+        objects.Object.id == id).first()
+    if obj:
+        sessions.delete(obj)
+        sessions.commit()
+    else:
+        abort(404)
+    return redirect('/')
+
+
+@app.route('/list_objects')
+@app.route('/edit_object/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_obj(id):
+    form = ObjectsForm()
+    if request.method == "GET":
+        sessions = db_session.create_session()
+        obj = sessions.query(objects.Object).filter(objects.Object.id == id).first()
+        if obj:
+            form.name.data = form.name
+            form.price.data = form.price
+            form.description.data = form.description
+            # form.category.data = form.category
+        else:
+            abort(404)
+    if form.validate_on_submit():
+        sessions = db_session.create_session()
+        obj = sessions.query(objects.Object).filter(objects.Object.id == id).first()
+        if obj:
+            form.name = form.name.data
+            form.price = form.price.data
+            form.description = form.description.data
+            # form.category = form.category.data
+            sessions.commit()
+            return redirect("/")
+        else:
+            abort(404)
+    return render_template('add_objects.html', title='Редактирование объекта', form=form)
+
+
 @app.route('/change_avatar',  methods=['GET', 'POST'])
 @login_required
 def change_avatar():
@@ -297,8 +341,7 @@ def main_page(category="Всекатегории"):
                                name='', find=False)
     if form.validate_on_submit():
         find = True
-        names = list(map(lambda x: list(x[0].lower()), sessions.query(objects.Object.name).all()))
-        print(check_coincidences(list(what_we_want_to_find), names))
+        names = list(map(lambda x: list(x[0].lower()), sessions.query(objects.Object.name).filter().all()))
     return render_template('main_page.html', category=category, current_user=current_user, title='DinoTrade', objects=objs, form=form, name=check_coincidences(list(what_we_want_to_find), names), find=find)
 
 
