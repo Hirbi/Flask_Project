@@ -51,24 +51,15 @@
     <div class="alert alert-secondary" role="alert" style="width: 100%;">
         {% set arr = [] %}
         {% set count_if_we_use_find = 0 %}
+        {% set kostyl = [] %}
+        {% set k = 0 %}
         <table class="table" style="float: right; margin-left: 2%;">
             {% for object in objects %}
-                {% if loop.index % 3 == 1%}
+                {% if loop.index % 3 == 1 and not find%}
                     <tr>
                 {% endif %}
                 {% if object.name.lower() in name %}
-                    <td>
-                        <div class="card" style="width: 18rem;">
-                            <img src="{{ object.pictures.split()[0] }}" class="card-img-top"
-                                 alt="Фотокарточка не добавлена">
-                            <div class="card-body"></div>
-                            <h5 class="card-title">{{ object.name }}</h5>
-                            <p class="card-text">Цена: {{ object.price }} руб.</p>
-                            <p class="card-text">Категория: {{ object.category }}</p>
-                            <p class="card-text bg-light">Описание: {{ object.description }}</p>
-                            <a href="/obj/{{ object.id }}" class="btn btn-primary">Перейти</a>
-                        </div>
-                    </td>
+                        {% set kostyl = kostyl.append(object) %}
                 {% else %}
                         {% if not find %}
                             {% if category == object.category or category == 'Всекатегории' %}
@@ -89,6 +80,25 @@
                         {% endif %}
                 {% endif %}
            {% endfor %}
+                {% if kostyl|length != 0 and find %}
+                      {% for object in kostyl %}
+                        {% if loop.index % 3 == 1%}
+                            <tr>
+                        {% endif %}
+                        <td>
+                            <div class="card" style="width: 18rem;">
+                                <img src="{{ object.pictures.split()[0] }}" class="card-img-top"
+                                     alt="Фотокарточка не добавлена">
+                                <div class="card-body"></div>
+                                <h5 class="card-title">{{ object.name }}</h5>
+                                <p class="card-text">Цена: {{ object.price }} руб.</p>
+                                <p class="card-text">Категория: {{ object.category }}</p>
+                                <p class="card-text bg-light">Описание: {{ object.description }}</p>
+                                <a href="/obj/{{ object.id }}" class="btn btn-primary">Перейти</a>
+                            </div>
+                        </td>
+                        {% endfor %}
+                    {%endif%}
                 {% if arr|length == 0 and not find %}
                     <tr>
                         <td>
