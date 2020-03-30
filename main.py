@@ -284,6 +284,8 @@ def login():
         sessions = db_session.create_session()
         user = sessions.query(users.User).filter(users.User.email == form.email.data).first()
         if user and user.password == form.password.data:
+            if user.block:
+                return render_template('login.html', message='Ваша страница заблокирована за нарушение правил сайта.', title='Вход', form=form)
             login_user(user, remember=form.remember_me.data)
             return redirect('/')
         return render_template('login.html', message='Неправильный логин или пароль', title='Вход', form=form)
@@ -293,6 +295,16 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    return redirect('/')
+
+
+@app.route('/block/<int:id>')
+def block(id):
+    session = db_session.create_session()
+    user = session.query(users.User).filter(users.User.id == id).first()
+    user.block = True
+    session.merge(current_user)
+    session.commit()
     return redirect('/')
 
 

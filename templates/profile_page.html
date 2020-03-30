@@ -78,6 +78,13 @@
                         </td>
                     </tr>
                 {% endif %}
+                {% if current_user.admin > 0 %}
+                    <tr>
+                        <td>
+                            <a class="btn btn-danger" href="/block/{{ user.id }}">Заблокировать</a>
+                        </td>
+                    </tr>
+                {% endif %}
             </table>
         </div>
         <div style="width: 48%; float: left; margin-left: 2%;">
