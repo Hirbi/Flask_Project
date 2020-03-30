@@ -56,15 +56,6 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
-                <div align="center">
-                    <form action="" class="login_form" method=post enctype=multipart/form-data>
-                        <div class="form-group">
-                            <label for="photo">Приложите фотографию</label>
-                            <input type="file" class="form-control-file" id="photo" name="file">
-                        </div>
-                    <button type="submit" class="btn btn-primary">Отправить</button>
-                    </form>
-                </div>
                 <div style="float: right;">
                    <table style="height: 100%;">
                         <tr><td><div class="alert alert-warning" role="alert">
@@ -74,6 +65,17 @@
                             Продавец: <a href="/profile/{{ author.id }}">{{ author.name }}</a><br>
                             На DinoTrade с {{ date }}
                         </div></td></tr>
+                        <tr>
+                            <td>
+                                <form action="" class="login_form" method=post enctype=multipart/form-data>
+                                    <div class="form-group">
+                                        <label for="photo">Приложите фотографию</label>
+                                        <input type="file" class="form-control-file" id="photo" name="file">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Добавить фото</button>
+                                </form>
+                            </td>
+                        </tr>
                     </table>
                 </div>
                 <div>
