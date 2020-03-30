@@ -21,7 +21,7 @@
         </div>
         <div class="alert alert-primary" role="alert" style="text-align: center; width: 20%;">
             <div>
-                <h3>{{ current_user.name }}</h3>
+                <h3>{{ user.name }}</h3>
             </div>
         </div>
     </div>
@@ -34,25 +34,25 @@
             <table align="center" class="table">
                 <tr>
                     <td class="active">На сайте с: </td>
-                    <td>{{ current_user.created_date.date().day }} {{
-                        months[current_user.created_date.date().month] }} {{
-                        current_user.created_date.date().year }} года
+                    <td>{{ user.created_date.date().day }} {{
+                        months[user.created_date.date().month] }} {{
+                        user.created_date.date().year }} года
                     </td>
                 </tr>
                 <tr>
                     <td class="active">Электронная почта:</td>
-                    <td>{{ current_user.email }}</td>
+                    <td>{{ user.email }}</td>
                 </tr>
                 <tr>
                     <td class="active">Номер телефона:</td>
-                    <td>{{ current_user.phone }}</td>
+                    <td>{{ user.phone }}</td>
                 </tr>
                 <tr>
                     <td class="active">Город:</td>
-                    {% if current_user.town == None %}
+                    {% if user.town == None %}
                         <td>Не указан</td>
                     {% else %}
-                        <td>{{ current_user.town }}</td>
+                        <td>{{ user.town }}</td>
                     {% endif %}
                 </tr>
                 <tr>
@@ -61,29 +61,29 @@
                 </tr>
                 <tr>
                     <td class="active">Рейтинг:</td>
-                    {% if current_user.rating == None %}
+                    {% if user.rating == None %}
                         <td>Без рейтинга</td>
                     {% else %}
-                        <td> {{current_user.rating}} </td>
+                        <td> {{user.rating}} </td>
                     {% endif %}
                 </tr>
                 <tr>
                     <td class="active">Аватарочка:</td>
                     <td class="active"><img style="border-radius: 10px;" src="{{ files }}" height="100" width="100"></td>
                 </tr>
-                {% if current_user.is_authenticated %}
+                {% if user.id == current_user.id %}
                     <tr>
                         <td>
-                            <a class="btn btn-primary" href="/confirm_password/{{ current_user.id }}">Редактировать</a>
+                            <a class="btn btn-primary" href="/confirm_password/{{ user.id }}">Редактировать</a>
                         </td>
                     </tr>
                 {% endif %}
             </table>
         </div>
         <div style="width: 48%; float: left; margin-left: 2%;">
-            {% if current_user.objects %}
+            {% if user.objects %}
                 <table align="center" class="table">
-                    {% for object in current_user.objects %}
+                    {% for object in user.objects %}
                         <tr>
                             <td width="25%">
                                 <a href="/obj/{{ object.id }}">

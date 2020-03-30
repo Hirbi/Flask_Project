@@ -166,21 +166,23 @@ def change_avatar():
     return render_template('change_avatar.html', title='Смена аватарки', files=files)
 
 
-@app.route('/profile')
+@app.route('/profile/<int:id>')
 @login_required
-def profile():
+def profile(id):
+    sessions = db_session.create_session()
+    user = sessions.query(users.User).filter(users.User.id == id).first()
     if request.method == 'POST':
         session = db_session.create_session()
         filename = open_file(current_user.id, 'avatar')
-        current_user.avatar = '../' + '/'.join(filename.split('/')[-4:])
-        session.merge(current_user)
+        user.avatar = '../' + '/'.join(filename.split('/')[-4:])
+        session.merge(user)
         session.commit()
-    files = current_user.avatar
-    if str(current_user.objects) == '[]':
+    files = user.avatar
+    if str(user.objects) == '[]':
         kolvo = 0
     else:
-        kolvo = len(str(current_user.objects).split('|, '))
-    return render_template('profile_page.html', kolvo=kolvo, title=current_user.name, files=files)
+        kolvo = len(str(user.objects).split('|, '))
+    return render_template('profile_page.html', kolvo=kolvo, title=user.name, files=files, id=id, user=user)
 
 
 @app.route('/confirm_password/<int:id>',  methods=['GET', 'POST'])
@@ -213,7 +215,7 @@ def show_obj(id):
                 session.merge(obj)
                 session.commit()
     files = obj.pictures.split()
-    return render_template('object_page.html', files=files, author=obj.user.id)
+    return render_template('object_page.html', files=files, author=obj.user, object=obj, title=f'Объявление {obj.name}')
 
 
 @app.route('/edit_profile/<int:id>', methods=['GET', 'POST'])

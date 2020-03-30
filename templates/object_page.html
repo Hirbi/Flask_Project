@@ -1,49 +1,82 @@
 {% extends "base.html" %}
 
 {% block content %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<div id="myCarousel" class="carousel slide" data-ride="carousel" style="height: 400px; width: 400px;" align="center">
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            {% for file in files %}
-                <li data-target="#myCarousel">
-            {% endfor %}
-        </ol>
-
-        <div class="carousel-inner" height="400" width="400">
-            <div class="item active">
-                <img src="/static/img/new_logo.png" height="400" width="400" style="width: 100%; height: 100%;">
-            </div>
-            {% for file in files %}
-                <div class="item">
-                    <img src="{{ file }}" height="400" width="400" style="width: 100%; height: 100%;">
-                </div>
-            {% endfor %}
-        </div>
-
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-            <span class="sr-only">Next</span>
-        </a>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet"
+          href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+    <div align="left" class="alert alert-secondary" role="alert" style="border-radius: 50px 50px 50px 50px; width: 50%; margin-left: 2%;
+            height: 100%; margin-top: 2%;">
+        <table cellpadding="20">
+            <caption style="caption-side: top;"><h1> Информация о товаре {{ object.name }} </h1></caption>
+            <tr>
+                <td>
+                    <div style="width: 600px; height: 600px; flex: left;" id="carousel-example-2" class="carousel slide carousel-fade"
+                         data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            {% for i in range(files|length)%}
+                                <li data-target="#carousel-example-2" data-slide-to="0"
+                                    class="active"></li>
+                            {% endfor %}
+                        </ol>
+                        <div class="carousel-inner" role="listbox">
+                            {% for file in files %}
+                                {% if loop.index == 1%}
+                                    <div class="carousel-item active">
+                                        <div class="view">
+                                            <img style="border-radius: 10px 10px 10px 10px;" class="d-block w-100" src="{{ file }}">
+                                            <div class="mask rgba-black-light"></div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="carousel-item">
+                                        <!--Mask color-->
+                                        <div class="view">
+                                            <img style="border-radius: 10px 10px 10px 10px;" class="d-block w-100" src="{{ file }}">
+                                            <div class="mask rgba-black-strong"></div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel-example-2"
+                           role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel-example-2"
+                           role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </td>
+                <td>
+                    <table style="height: 100%;">
+                        <tr><td><div class="alert alert-info" role="alert">
+                            Название: {{ object.name }}
+                        </div></td></tr>
+                        <tr><td><div class="alert alert-warning" role="alert">
+                            Категория: {{ object.category }}
+                        </div></td></tr>
+                        <tr><td><div class="alert alert-warning" role="alert">
+                            Описание: {{ object.description }}
+                        </div></td></tr>
+                        <tr><td><div class="alert alert-warning" role="alert">
+                            Цена: {{ object.price }} руб.
+                        </div></td></tr>
+                        <tr><td><div class="alert alert-warning" role="alert">
+                            Продавец: <a href="/profile/{{ author.id }}">{{ author.name }}</a>
+                        </div></td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
     </div>
-    {% if current_user.id == author or current_user.id == 1%}
-        <div align="center">
-            <form action="" class="login_form" method=post enctype=multipart/form-data>
-                <div class="form-group">
-                    <label for="photo">Приложите фотографию</label>
-                    <input type="file" class="form-control-file" id="photo" name="file">
-                </div>
-            <button type="submit" class="btn btn-primary">Отправить</button>
-            </form>
-        </div>
-    {% endif %}
-
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
+    </script>
+    <script
+            src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js">
+    </script>
 {% endblock %}
