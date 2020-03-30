@@ -206,9 +206,6 @@ def show_obj(id):
     obj = session.query(objects.Object).filter(objects.Object.id == id).first()
     if request.method == 'POST':
         file, filename = open_file(id, 'object')
-        # file = request.files['file']
-        # filename = '/'.join(UPLOAD_FOLDER.split('\\')) + '/' + str(id) + '_' + file.filename
-        # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         if obj:
             if filename not in obj.pictures:
                 obj.pictures = str(obj.pictures) + filename + ' '
