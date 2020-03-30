@@ -138,7 +138,6 @@ def object_delete(id):
     return redirect('/')
 
 
-@app.route('/list_objects')
 @app.route('/edit_object/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_obj(id):
@@ -225,7 +224,7 @@ def show_obj(id):
         file, filename = open_file(id, 'object')
         if obj:
             if filename not in obj.pictures:
-                obj.pictures = str(obj.pictures) + filename + ' '
+                obj.pictures = str(obj.pictures) + ' ' + filename + ' '
                 session.merge(obj)
                 session.commit()
     files = obj.pictures.split()

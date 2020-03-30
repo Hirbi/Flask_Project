@@ -109,10 +109,10 @@
                             </a>
                         </div>
                         <div style="float: right; margin: 10px;" class="item">
-                            {% if object.pictures %}
-                                <img src="{{ object.pictures.split()[0] }}" height="100" width="100" alt="Фотокарточка не добавлена">
+                            {% if object.pictures.strip() == '' or object.pictures == None%}
+                                <img src="../static/img/not_found.png" height="100" width="100">
                             {% else %}
-                                <img src="../static/img/not_found.png" height="100" width="100" alt="Фотокарточка не добавлена">
+                                <img src="{{ object.pictures.split()[0] }}" height="100" width="100" alt="Фотокарточка не добавлена">
                             {% endif %}
                         </div>
                     {% endfor %}
