@@ -15,7 +15,7 @@ class Object(SqlAlchemyBase, UserMixin, SerializerMixin):
     category = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     price = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
     description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    pictures = sqlalchemy.Column(sqlalchemy.String, nullable=True, default=' ')
+    pictures = sqlalchemy.Column(sqlalchemy.String, nullable=True, default='/static/img/new_logo.png')
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     sold = sqlalchemy.Column(sqlalchemy.Boolean, nullable=False, default=False)
     block = sqlalchemy.Column(sqlalchemy.Boolean, default=False)

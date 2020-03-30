@@ -130,20 +130,20 @@ def edit_obj(id):
         sessions = db_session.create_session()
         obj = sessions.query(objects.Object).filter(objects.Object.id == id).first()
         if obj:
-            form.name.data = form.name
-            form.price.data = form.price
-            form.description.data = form.description
-            # form.category.data = form.category
+            form.name.data = obj.name
+            form.price.data = obj.price
+            form.description.data = obj.description
+            form.category.data = obj.category
         else:
             abort(404)
     if form.validate_on_submit():
         sessions = db_session.create_session()
         obj = sessions.query(objects.Object).filter(objects.Object.id == id).first()
         if obj:
-            form.name = form.name.data
-            form.price = form.price.data
-            form.description = form.description.data
-            # form.category = form.category.data
+            obj.name = form.name.data
+            obj.price = form.price.data
+            obj.description = form.description.data
+            obj.category = form.category.data
             sessions.commit()
             return redirect("/")
         else:
