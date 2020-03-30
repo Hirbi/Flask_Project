@@ -9,7 +9,6 @@ from data import db_session, objects, users
 from werkzeug.utils import secure_filename
 import datetime
 import os
-from algorithms import check_coincidences
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
