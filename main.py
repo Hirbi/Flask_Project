@@ -308,6 +308,36 @@ def block(id):
     return redirect('/')
 
 
+@app.route('/unblock/<int:id>')
+def unblock(id):
+    session = db_session.create_session()
+    user = session.query(users.User).filter(users.User.id == id).first()
+    user.block = False
+    session.merge(current_user)
+    session.commit()
+    return redirect('/')
+
+
+@app.route('/promote/<int:id>')
+def promote(id):
+    session = db_session.create_session()
+    user = session.query(users.User).filter(users.User.id == id).first()
+    user.admin = 1
+    session.merge(current_user)
+    session.commit()
+    return redirect('/')
+
+
+@app.route('/drop/<int:id>')
+def drop(id):
+    session = db_session.create_session()
+    user = session.query(users.User).filter(users.User.id == id).first()
+    user.admin = 0
+    session.merge(current_user)
+    session.commit()
+    return redirect('/')
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
     form = RegisterForm()

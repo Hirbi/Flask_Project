@@ -81,7 +81,22 @@
                 {% if current_user.admin > 0 %}
                     <tr>
                         <td>
-                            <a class="btn btn-danger" href="/block/{{ user.id }}">Заблокировать</a>
+                            {% if user.block == 0 %}
+                                <a class="btn btn-danger" href="/block/{{ user.id }}">Заблокировать</a>
+                            {% elif user.block == 1 %}
+                                <a class="btn btn-success" href="/unblock/{{ user.id }}">Разблокировать</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if current_user.admin > 1 %}
+                    <tr>
+                        <td>
+                            {% if user.admin == 0 %}
+                                <a class="btn btn-success" href="/promote/{{ user.id }}">Повысить до хелепера</a>
+                            {% elif user.admin == 1 %}
+                                <a class="btn btn-danger" href="/drop/{{ user.id }}">Понизить до юзера</a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endif %}
