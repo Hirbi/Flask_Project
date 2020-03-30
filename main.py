@@ -21,6 +21,24 @@ files = []
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
+def return_date(user):
+    months = {
+        1: 'января',
+        2: 'февраля',
+        3: 'марта',
+        4: 'апреля',
+        5: 'мая',
+        6: 'июня',
+        7: 'июля',
+        8: 'августа',
+        9: 'сентября',
+        10: 'октября',
+        11: 'ноября',
+        12: 'декабря'
+    }
+    return f'{user.created_date.date().day} {months[user.created_date.date().month]} {user.created_date.date().year} года'
+
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -181,7 +199,7 @@ def profile(id):
         kolvo = 0
     else:
         kolvo = len(str(user.objects).split('|, '))
-    return render_template('profile_page.html', kolvo=kolvo, title=user.name, files=files, id=id, user=user)
+    return render_template('profile_page.html', kolvo=kolvo, title=user.name, files=files, id=id, user=user, date=return_date(user))
 
 
 @app.route('/confirm_password/<int:id>',  methods=['GET', 'POST'])
@@ -211,7 +229,7 @@ def show_obj(id):
                 session.merge(obj)
                 session.commit()
     files = obj.pictures.split()
-    return render_template('object_page.html', files=files, author=obj.user, object=obj, title=f'Объявление {obj.name}')
+    return render_template('object_page.html', files=files, author=obj.user, object=obj, title=f'Объявление {obj.name}', date=return_date(obj.user))
 
 
 @app.route('/edit_profile/<int:id>', methods=['GET', 'POST'])

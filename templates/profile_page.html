@@ -34,10 +34,7 @@
             <table align="center" class="table">
                 <tr>
                     <td class="active">На сайте с: </td>
-                    <td>{{ user.created_date.date().day }} {{
-                        months[user.created_date.date().month] }} {{
-                        user.created_date.date().year }} года
-                    </td>
+                    <td> {{ date }}</td>
                 </tr>
                 <tr>
                     <td class="active">Электронная почта:</td>
@@ -93,7 +90,7 @@
                     <tr>
                         <td>
                             {% if user.admin == 0 %}
-                                <a class="btn btn-success" href="/promote/{{ user.id }}">Повысить до хелепера</a>
+                                <a class="btn btn-success" href="/promote/{{ user.id }}">Повысить до хелпера</a>
                             {% elif user.admin == 1 %}
                                 <a class="btn btn-danger" href="/drop/{{ user.id }}">Понизить до юзера</a>
                             {% endif %}
@@ -102,27 +99,25 @@
                 {% endif %}
             </table>
         </div>
-        <div style="width: 48%; float: left; margin-left: 2%;">
+        <div style="width: 48%; float: left; margin-left: 2%; display: grid; grid-template-columns: 75% 25%;">
             {% if user.objects %}
-                <table align="center" class="table">
                     {% for object in user.objects %}
-                        <tr>
-                            <td width="25%">
-                                <a href="/obj/{{ object.id }}">
-                                    Название товара: {{ object.name }}<br>
-                                    Описание товара: {{ object.description }}
-                                </a>
-                            </td>
-                            <td>
-                                <div class="item">
-                                    <img src="{{ object.pictures.split()[0] }}" height="100" width="100" alt="Фотокарточка не добавлена">
-                                </div>
-                            </td>
-                        </tr>
+                        <div style="width: 50%; float: left; word-wrap: break-word; margin: 10px;">
+                            <a href="/obj/{{ object.id }}">
+                                Название товара: {{ object.name }}<br>
+                                Описание товара: <br><div>{{ object.description }}</div>
+                            </a>
+                        </div>
+                        <div style="float: right; margin: 10px;" class="item">
+                            {% if object.pictures %}
+                                <img src="{{ object.pictures.split()[0] }}" height="100" width="100" alt="Фотокарточка не добавлена">
+                            {% else %}
+                                <img src="../static/img/not_found.png" height="100" width="100" alt="Фотокарточка не добавлена">
+                            {% endif %}
+                        </div>
                     {% endfor %}
-                </table>
             {% else %}
-                <p> пусто </p>
+                <div style="width: 48%; float: left; margin-left: 2%;" class="alert alert-info" role="alert"> Пока что у данного пользователя нет объявлений </div>
             {% endif %}
         </div>
 {% endblock %}

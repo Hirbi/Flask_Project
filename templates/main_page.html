@@ -33,10 +33,10 @@
         </table>
     </div>
 </div>
-<div class="d-flex p-2" style="width: 66%; margin-right: 2%;">
+<div class="d-flex p-2" style="width: 66%; table-layout: auto;">
     <div class="alert alert-secondary" role="alert" style="width: 100%;">
         {% set arr = [] %}
-        <table class="table" style="float: right; margin-left: 2%;">
+        <table class="table" style="float: right; margin-left: 2%; margin-bot: 2%; height: 100%;">
             {% for object in objects %}
                 {% if loop.index % 3 == 1 %}
                     <tr>
@@ -44,7 +44,7 @@
                     {% if category == object.category or category == 'Всекатегории' %}
                         {% set arr = arr.append(1) %}
                         <td width="25%">
-                            <div class="card" style=" height: 550px; width: 302px; background: url(../static/img/not_found.png) no-repeat;">
+                            <div class="card" style="height: 100%; width: 302px; background: url(../static/img/not_found.png) no-repeat; margin-bot: 2%;">
                                 <img src="{{ object.pictures.split()[0] }}" class="card-img-top" height="300px" width="302px">
                                 <div class="card-body"></div>
                                     <h5 class="card-title">{{ object.name }}</h5>
