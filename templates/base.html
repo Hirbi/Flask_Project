@@ -30,7 +30,7 @@
                 {% if current_user.is_authenticated %}
                     <table align="right">
                         <tr>
-                            <td><div style="float: left;"><a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" href="/profile/{{ current_user.id }}" style="width: 170px; height: 50px;"><h6>{{current_user.name}}</h6></a></div></td>
+                            <td><a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" href="/profile/{{ current_user.id }}" style="width: 170px; height: 50px;"><h6>{{current_user.name}}</h6></a></td>
                             <td><a href="/change_avatar"><img style="border-radius: 10px;" src="{{ current_user.avatar }}" height="50" width="50" title="Сменить аватарку"></a></td>
                         </tr>
                         <tr>
@@ -45,6 +45,15 @@
                                 </a>
                             </td>
                         </tr>
+                        {% if current_user.admin >= 1 %}
+                            <tr>
+                                <td colspan="2">
+                                    <a style="width: 100%" class="btn btn-warning float-right" href="/users_list">
+                                    Список пользователей
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endif %}
                     </table>
                 {% else %}
                     <table align="right">

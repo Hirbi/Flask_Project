@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% set roles={0:"Юзер", 1:"Хелпер", 2:"Админ"} %}
+    <div style="width: 100%%; display: grid; grid-template-columns: 20% 20% 20% 20% 20%;">
+        <div class="alert alert-primary" role="alert" style="width: 100%;">
+            <h2>Имя</h2>
+        </div>
+        <div class="alert alert-primary" role="alert" style="width: 100%;">
+            <h2>Почта</h2>
+        </div>
+        <div class="alert alert-primary" role="alert" style="width: 100%;">
+            <h2>Статус блокировки</h2>
+        </div>
+        <div class="alert alert-primary" role="alert" style="width: 100%;">
+            <h2>Права</h2>
+        </div>
+        <div class="alert alert-primary" role="alert" style="width: 100%;">
+            <h2>Действия</h2>
+        </div>
+    </div>
+    <div style="width: 100%; display: grid; grid-template-columns: 20% 20% 20% 20% 20%;">
+        {% for user in users_list %}
+            <div class="alert alert-info" role="alert" style="width: 100%;">
+                <a href="/profile/{{ user.id }}">{{ user.name }}</a>
+            </div>
+            <div class="alert alert-info" role="alert" style="width: 100%;">
+                {{ user.email }}
+            </div>
+            <div class="alert alert-info" role="alert" style="width: 100%;">
+                {% if user.block %}
+                    Заблокирован
+                {% else %}
+                    Не заблокирован
+                {% endif %}
+            </div>
+            <div class="alert alert-info" role="alert" style="width: 100%;">
+                {{ roles[user.admin] }}
+            </div>
+            <div class="alert alert-warning" role="alert" style="width: 100%;">
+                {% if roles[user.admin] == "Админ" %}
+                    Ты чё это же админ
+                {% else %}
+                    {% if user.admin == 0 %}
+                        <a class="btn btn-success" href="/promote/{{ user.id }}">Повысить до хелпера</a>
+                    {% elif user.admin == 1 %}
+                        <a class="btn btn-danger" href="/drop/{{ user.id }}">Понизить до юзера</a>
+                    {% endif %}
+                    {% if user.block == 0 and user.id != current_user.id and current_user.admin > user.admin %}
+                        <a class="btn btn-danger" href="/block/{{ user.id }}">Заблокировать</a>
+                    {% elif user.block == 1%}
+                        <a class="btn btn-success" href="/unblock/{{ user.id }}">Разблокировать</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

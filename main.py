@@ -182,6 +182,14 @@ def change_avatar():
     return render_template('change_avatar.html', title='Смена аватарки', files=files)
 
 
+@app.route('/users_list')
+@login_required
+def users_list():
+    sessions = db_session.create_session()
+    users_list = sessions.query(users.User).all()
+    return render_template('users_list.html', users_list=users_list, title='Список всех пользователей')
+
+
 @app.route('/profile/<int:id>')
 @login_required
 def profile(id):

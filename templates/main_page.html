@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block content %}
 <div style="width: 30%; float: left; margin-left: 2%;">
     <div class="d-flex p-2">
@@ -50,11 +51,11 @@
                                     <h5 class="card-title">{{ object.name }}</h5>
                                     <p class="card-text">Цена: {{ object.price }} руб.</p>
                                     <p class="card-text">Категория: {{ object.category }}</p>
-                                    <p class="card-text bg-light">Описание: {{ object.description }}</p>
+                                    <p class="card-text">Описание: {{ object.description }}</p>
                                     {% if current_user.is_authenticated and (current_user == object.user or current_user.admin > 0)%}
                                         <div>
-                                            <a href="/edit_object/{{ object.id }}" class="btn btn-warning">Изменить</a>
-                                            <a href="/object_delete/{{ object.id }}" class="btn btn-danger">Удалить</a>
+                                            <div style="width: 50%; float: left;"><a style="width:100%" href="/edit_object/{{ object.id }}" class="btn btn-warning">Изменить</a></div>
+                                            <div style="width: 50%; float: right;"><a style="width:100%" href="/object_delete/{{ object.id }}" class="btn btn-danger">Удалить</a></div>
                                         </div>
                                     {% endif %}
                                     <a href="/obj/{{ object.id }}" class="btn btn-primary">Перейти</a>

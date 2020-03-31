@@ -30,7 +30,7 @@
             <td width="50%" align="center"><h4>Информация о пользователе</h4></td>
             <td width="50%" align="center"><h4>Активные объявления пользователя</h4></td>
         </table>
-        <div class="alert alert-secondary" role="alert" style="width: 48%; float: left;  margin-right: 2%;">
+        <div class="alert alert-secondary" role="alert" style="width: 48%; float: left;  margin-left: 2%;">
             <table align="center" class="table">
                 <tr>
                     <td class="active">На сайте с: </td>
@@ -78,9 +78,9 @@
                 {% if current_user.admin > 0 %}
                     <tr>
                         <td>
-                            {% if user.block == 0 %}
+                            {% if user.block == 0 and user.id != current_user.id and current_user.admin > user.admin %}
                                 <a class="btn btn-danger" href="/block/{{ user.id }}">Заблокировать</a>
-                            {% elif user.block == 1 %}
+                            {% elif user.block == 1%}
                                 <a class="btn btn-success" href="/unblock/{{ user.id }}">Разблокировать</a>
                             {% endif %}
                         </td>
@@ -99,22 +99,24 @@
                 {% endif %}
             </table>
         </div>
-        <div style="width: 48%; float: left; margin-left: 2%; display: grid; grid-template-columns: 75% 25%;">
+        <div style="width: 48%; float: left; margin-right: 2%; display: grid; grid-template-columns: 75% 25%;">
             {% if user.objects %}
                     {% for object in user.objects %}
-                        <div style="width: 50%; float: left; word-wrap: break-word; margin: 10px;">
-                            <a href="/obj/{{ object.id }}">
-                                Название товара: {{ object.name }}<br>
-                                Описание товара: <br><div>{{ object.description }}</div>
-                            </a>
-                        </div>
-                        <div style="float: right; margin: 10px;" class="item">
-                            {% if object.pictures.strip() == '' or object.pictures == None%}
-                                <img src="../static/img/not_found.png" height="100" width="100">
-                            {% else %}
-                                <img src="{{ object.pictures.split()[0] }}" height="100" width="100" alt="Фотокарточка не добавлена">
-                            {% endif %}
-                        </div>
+                        <div class="alert alert-success" role="alert" style="width: 100%; margin-left: 21%;">
+                            <div style="width: 50%; float: left; word-wrap: break-word; margin: 10px;">
+                                <a href="/obj/{{ object.id }}">
+                                    Название товара: {{ object.name }}<br>
+                                    Описание товара: <br><div>{{ object.description }}</div>
+                                </a>
+                            </div>
+                            <div style="float: right; margin: 10px;" class="item">
+                                {% if object.pictures.strip() == '' or object.pictures == None%}
+                                    <img src="../static/img/not_found.png" height="100" width="100">
+                                {% else %}
+                                    <img src="{{ object.pictures.split()[0] }}" height="100" width="100" alt="Фотокарточка не добавлена">
+                                {% endif %}
+                            </div>
+                        </div><br>
                     {% endfor %}
             {% else %}
                 <div style="width: 48%; float: left; margin-left: 2%;" class="alert alert-info" role="alert"> Пока что у данного пользователя нет объявлений </div>
