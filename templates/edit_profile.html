@@ -14,7 +14,7 @@
                             {{ form.new_name(class="form-control") }} <br>
                             {% for error in form.new_name.errors %}
                                 <p class="alert alert-danger" role="alert">
-                                    {{ error }}
+                                    Имя пользователя должно составлять не менее 3 и не более 15 символов
                                 </p>
                             {% endfor %}
                         </p>
@@ -25,6 +25,9 @@
                         <p>
                             {{ form.new_email.label }} <br>
                             {{ form.new_email(class="form-control") }} <br>
+                            {% if email_message %}
+                                <p class="alert alert-danger" role="alert">{{ email_message }}</p>
+                            {% endif %}
                             {% for error in form.new_email.errors %}
                                 <p class="alert alert-danger" role="alert">
                                     {{ error }}
@@ -38,6 +41,13 @@
                         <p>
                             {{ form.new_password.label }} <br>
                             {{ form.new_password(class="form-control") }} <br>
+                            {% if pass_message %}
+                                {% if pass_message == 'Слишком слабый пароль'%}
+                                    <p class="alert alert-danger" role="alert">Пароль должен содержать 8 символов, латинсике буквы верхнего и нижнего регистра, нижний пробел, 3 цифры, и в нём не должно быть более 3 идущих подряд одинаковых символов!</p>
+                                {% else %}
+                                    <p class="alert alert-danger" role="alert">{{ pass_message }}</p>
+                                {% endif %}
+                            {% endif %}
                             {% for error in form.new_password.errors %}
                                 <p class="alert alert-danger" role="alert">
                                     {{ error }}
@@ -77,6 +87,9 @@
                         <p>
                             {{ form.new_phone.label }} <br>
                             {{ form.new_phone(class="form-control") }} <br>
+                            {% if phone_message %}
+                                <p class="alert alert-danger" role="alert"> {{ phone_message }} </p>
+                            {% endif %}
                             {% for error in form.new_phone.errors %}
                                 <p class="alert alert-danger" role="alert">
                                     {{ error }}

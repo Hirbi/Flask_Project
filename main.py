@@ -267,21 +267,32 @@ def edit_profile(id):
         sessions = db_session.create_session()
         new = sessions.query(users.User).filter(users.User.id == id).first()
         if new:
-            new.name = form.new_name.data
-            new.email = form.new_email.data
-            new.password = form.new_password.data
-            new.password_again = form.new_password_again.data
-            new.town = form.new_town.data
-            new.phone = form.new_phone.data
-            if new.password != new.password_again:
+            if not chek_password_combination(form.new_password.data):
+                return render_template('edit_profile.html',
+                                       form=form, title='Регистрация',
+                                       pass_message="Слишком слабый пароль")
+            if form.new_password.data != form.new_password_again.data:
                 return render_template('edit_profile.html', name=current_user.name,
                                        email=current_user.email,
                                        password=current_user.password, town=current_user.town,
                                        phone=current_user.phone, message='Пароли не совпадают',
                                        title='Редактирование профиля', form=form)
+            if not check_phone(form.new_phone.data)[0]:
+                return render_template('edit_profile.html',
+                                       form=form, title='Регистрация',
+                                       phone_message=check_phone(form.new_phone.data)[1])
+            if sessions.query(users.User).filter(users.User.email == form.new_email.data, form.new_email.data != current_user.email).first():
+                return render_template('edit_profile.html',
+                                       form=form, title='Регистрация',
+                                       email_message="Пользователь с такой почтой уже существует")
             else:
+                new.name = form.new_name.data
+                new.email = form.new_email.data
+                new.password = form.new_password.data
+                new.town = form.new_town.data
+                new.phone = form.new_phone.data
                 sessions.commit()
-                return redirect('/profile')
+                return redirect(f'/profile/{current_user.id}')
         else:
             abort(404)
     return render_template('edit_profile.html', name=current_user.name, email=current_user.email,

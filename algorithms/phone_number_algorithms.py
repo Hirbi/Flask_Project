@@ -57,7 +57,7 @@ def correct_ln(s):
     if len(number[1:]) == 11:
         return number
     else:
-        raise WrongLn('Неверное количество цифр')
+        raise WrongLn('Неверное количество цифр в номере')
 
 
 def scobki(s):
