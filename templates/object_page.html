@@ -83,12 +83,14 @@
                             Описание: {{ object.description }}
                         </div>
                 </div>
-                {% if current_user.id == author.id or current_user.admin >= 1 %}
-                    <div>
-                        <div style="margin-left: 2%; width: 100%; word-wrap: break-word;">
-                            <a style="width:100%;" href="/edit_object/{{ object.id }}" class="btn btn-warning">Изменить</a>
+                {% if current_user.is_authenticated %}
+                    {% if current_user.id == author.id or current_user.admin >= 1 %}
+                        <div>
+                            <div style="margin-left: 2%; width: 100%; word-wrap: break-word;">
+                                <a style="width:100%;" href="/edit_object/{{ object.id }}" class="btn btn-warning">Изменить</a>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 {% endif %}
             </div>
     </div>
