@@ -39,7 +39,8 @@ def return_date(user):
         11: 'ноября',
         12: 'декабря'
     }
-    return f'{user.created_date.date().day} {months[user.created_date.date().month]} {user.created_date.date().year} года'
+    return f'{user.created_date.date().day} {months[user.created_date.date().month]}' \
+           f' {user.created_date.date().year} года'
 
 
 def allowed_file(filename):
@@ -76,9 +77,13 @@ class LoginForm(FlaskForm):
 
 
 class ObjectsForm(FlaskForm):
-    categories_arr = [('Одежда', 'Одежда'), ('Техника', 'Техника'), ('Мебель', 'Мебель'), ('Животные', 'Животные'), ('Другое', 'Другое')]  #список с категориями который работает НЕПОНЯТНО НО РАБОТАЕТ
+    categories_arr = [('Одежда', 'Одежда'), ('Техника', 'Техника'), ('Мебель', 'Мебель'),
+                      ('Животные', 'Животные'), ('Другое', 'Другое')]
+    # список с категориями который работает НЕПОНЯТНО НО РАБОТАЕТ
+    # комментарий от ромы: ПАХХАХАХАХАХА я так половину проекта писал
     name = StringField('Название', validators=[DataRequired()])
-    category = RadioField('Выберите категорию товара', choices=categories_arr, validators=[DataRequired()])
+    category = RadioField('Выберите категорию товара', choices=categories_arr,
+                          validators=[DataRequired()])
     price = IntegerField('Цена', validators=[DataRequired()])
     description = TextAreaField('Описание', validators=[DataRequired()])
     sold = BooleanField('Продано')
@@ -173,7 +178,7 @@ def edit_obj(id):
     return render_template('add_objects.html', title='Редактирование объекта', form=form)
 
 
-@app.route('/change_avatar',  methods=['GET', 'POST'])
+@app.route('/change_avatar', methods=['GET', 'POST'])
 @login_required
 def change_avatar():
     if request.method == 'POST':
@@ -193,15 +198,19 @@ def change_avatar():
 def users_list():
     sessions = db_session.create_session()
     users_list = sessions.query(users.User).all()
-    return render_template('users_list.html', users_list=users_list, title='Список всех пользователей')
+    return render_template('users_list.html',
+                           users_list=users_list,
+                           title='Список всех пользователей')
 
 
 @app.route('/profile/<int:id>')
 def profile(id):
     sessions = db_session.create_session()
     user = sessions.query(users.User).filter(users.User.id == id).first()
-    not_sold_objs = sessions.query(objects.Object).filter(objects.Object.sold == 0, objects.Object.user_id == user.id)
-    sold_objs = sessions.query(objects.Object).filter(objects.Object.sold == 1, objects.Object.user_id == user.id)
+    not_sold_objs = sessions.query(objects.Object).filter(objects.Object.sold == 0,
+                                                          objects.Object.user_id == user.id)
+    sold_objs = sessions.query(objects.Object).filter(objects.Object.sold == 1,
+                                                      objects.Object.user_id == user.id)
     if request.method == 'POST':
         session = db_session.create_session()
         filename = open_file(current_user.id, 'avatar')
@@ -213,10 +222,14 @@ def profile(id):
         kolvo = 0
     else:
         kolvo = len(str(user.objects).split('|, '))
-    return render_template('profile_page.html', kolvo=kolvo, title=user.name, files=files, id=id, user=user, not_sold_objs=not_sold_objs, sold_objs=sold_objs, date=return_date(user))
+    return render_template('profile_page.html', kolvo=kolvo, title=user.name,
+                           files=files, id=id, user=user,
+                           not_sold_objs=not_sold_objs,
+                           sold_objs=sold_objs,
+                           date=return_date(user))
 
 
-@app.route('/confirm_password/<int:id>',  methods=['GET', 'POST'])
+@app.route('/confirm_password/<int:id>', methods=['GET', 'POST'])
 @login_required
 def confirm_password(id):
     print(current_user.is_authenticated)
@@ -227,8 +240,13 @@ def confirm_password(id):
         if form.password.data == new.password:
             return redirect(f'/edit_profile/{new.id}')
         else:
-            return render_template('confirm_password.html', message='Неправильный пароль', title='Подтверждение пароля',form=form)
-    return render_template('confirm_password.html', title='Подтверждение пароля', form=form)
+            return render_template('confirm_password.html',
+                                   message='Неправильный пароль',
+                                   title='Подтверждение пароля',
+                                   form=form)
+    return render_template('confirm_password.html',
+                           title='Подтверждение пароля',
+                           form=form)
 
 
 @app.route('/obj/<int:id>', methods=['GET', 'POST'])
@@ -243,7 +261,11 @@ def show_obj(id):
                 session.merge(obj)
                 session.commit()
     files = obj.pictures.split()
-    return render_template('object_page.html', files=files, author=obj.user, object=obj, title=f'Объявление {obj.name}', date=return_date(obj.user))
+    return render_template('object_page.html', files=files,
+                           author=obj.user,
+                           object=obj,
+                           title=f'Объявление {obj.name}',
+                           date=return_date(obj.user))
 
 
 @app.route('/edit_profile/<int:id>', methods=['GET', 'POST'])
@@ -281,7 +303,9 @@ def edit_profile(id):
                 return render_template('edit_profile.html',
                                        form=form, title='Регистрация',
                                        phone_message=check_phone(form.new_phone.data)[1])
-            if sessions.query(users.User).filter(users.User.email == form.new_email.data, form.new_email.data != current_user.email).first():
+            if sessions.query(users.User).filter(users.User.email == form.new_email.data,
+                                                 form.new_email.data != current_user.email
+                                                 ).first():
                 return render_template('edit_profile.html',
                                        form=form, title='Регистрация',
                                        email_message="Пользователь с такой почтой уже существует")
@@ -329,10 +353,14 @@ def login():
         user = sessions.query(users.User).filter(users.User.email == form.email.data).first()
         if user and user.password == form.password.data:
             if user.block:
-                return render_template('login.html', message='Ваша страница заблокирована за нарушение правил сайта.', title='Вход', form=form)
+                return render_template('login.html',
+                                       message='Ваша страница заблокирована'
+                                               ' за нарушение правил сайта.',
+                                       title='Вход', form=form)
             login_user(user, remember=form.remember_me.data)
             return redirect('/')
-        return render_template('login.html', message='Неправильный логин или пароль', title='Вход', form=form)
+        return render_template('login.html', message='Неправильный логин или пароль',
+                               title='Вход', form=form)
     return render_template('login.html', title='Вход', form=form)
 
 
@@ -431,8 +459,14 @@ def main_page(category='Всекатегории'):
                                title='DinoTrade', objects=objs, form=form,
                                name='', find=False)
     if form.validate_on_submit():
-        objs = sessions.query(objects.Object).filter(objects.Object.name_for_find.like(f'%{what_we_want_to_find}%'), objects.Object.sold == 0)
-        return render_template('main_page.html', category=category, current_user=current_user, title='DinoTrade', objects=objs, form=form)
+        objs = sessions.query(objects.Object).filter(
+            objects.Object.name_for_find.like(
+                f'%{what_we_want_to_find}%'),objects.Object.sold == 0)
+        return render_template('main_page.html',
+                               category=category,
+                               current_user=current_user,
+                               title='DinoTrade',
+                               objects=objs, form=form)
 
 
 if __name__ == '__main__':
