@@ -79,6 +79,7 @@ class ObjectsForm(FlaskForm):
     category = RadioField('Выберите категорию товара', choices=categories_arr, validators=[DataRequired()])
     price = IntegerField('Цена', validators=[DataRequired()])
     description = TextAreaField('Описание', validators=[DataRequired()])
+    sold = BooleanField('Продано')
     submit = SubmitField('Сохранить')
 
 
@@ -151,6 +152,7 @@ def edit_obj(id):
             form.price.data = obj.price
             form.description.data = obj.description
             form.category.data = obj.category
+            form.sold.data = obj.sold
         else:
             abort(404)
     if form.validate_on_submit():
@@ -161,6 +163,7 @@ def edit_obj(id):
             obj.price = form.price.data
             obj.description = form.description.data
             obj.category = form.category.data
+            obj.sold = form.sold.data
             sessions.commit()
             return redirect("/")
         else:
@@ -196,6 +199,8 @@ def users_list():
 def profile(id):
     sessions = db_session.create_session()
     user = sessions.query(users.User).filter(users.User.id == id).first()
+    not_sold_objs = sessions.query(objects.Object).filter(objects.Object.sold == 0, objects.Object.user_id == user.id)
+    sold_objs = sessions.query(objects.Object).filter(objects.Object.sold == 1, objects.Object.user_id == user.id)
     if request.method == 'POST':
         session = db_session.create_session()
         filename = open_file(current_user.id, 'avatar')
@@ -207,7 +212,7 @@ def profile(id):
         kolvo = 0
     else:
         kolvo = len(str(user.objects).split('|, '))
-    return render_template('profile_page.html', kolvo=kolvo, title=user.name, files=files, id=id, user=user, date=return_date(user))
+    return render_template('profile_page.html', kolvo=kolvo, title=user.name, files=files, id=id, user=user, not_sold_objs=not_sold_objs, sold_objs=sold_objs, date=return_date(user))
 
 
 @app.route('/confirm_password/<int:id>',  methods=['GET', 'POST'])
@@ -296,6 +301,7 @@ def add_obj():
         obj.price = form.price.data
         obj.description = form.description.data
         obj.category = form.category.data
+        obj.sold = form.sold.data
         current_user.objects.append(obj)
         sessions.merge(current_user)
         sessions.commit()
@@ -400,12 +406,12 @@ def main_page(category='Всекатегории'):
     if form.find_line.data:
         what_we_want_to_find = form.find_line.data
     if request.method == 'GET':
-        objs = sessions.query(objects.Object).all()
+        objs = sessions.query(objects.Object).filter(objects.Object.sold == 0)
         return render_template('main_page.html', category=category, current_user=current_user,
                                title='DinoTrade', objects=objs, form=form,
                                name='', find=False)
     if form.validate_on_submit():
-        objs = sessions.query(objects.Object).filter(objects.Object.name_for_find.like(f'%{what_we_want_to_find}%'))
+        objs = sessions.query(objects.Object).filter(objects.Object.name_for_find.like(f'%{what_we_want_to_find}%'), objects.Object.sold == 0)
         return render_template('main_page.html', category=category, current_user=current_user, title='DinoTrade', objects=objs, form=form)
 
 

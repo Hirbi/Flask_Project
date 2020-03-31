@@ -7,8 +7,9 @@
           href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
     <div align="left" class="alert alert-secondary" role="alert" style="border-radius: 50px 50px 50px 50px; width: 96%; margin-left: 2%;
             height: 100%; margin-top: 2%;">
-                <div style="word-wrap: break-word;" class="alert alert-info" role="alert"><h1 align="center">Объявление {{ object.name }}</h1></div>
-                <div style="width: 40%; height: 60%; flex: right;  float: left;" id="carousel-example-2" class="carousel slide carousel-fade"
+        <div style="word-wrap: break-word;" class="alert alert-info" role="alert"><h1 align="center">Объявление {{ object.name }}</h1></div>
+            <div style="display: grid; grid-template-columns: 35% 15% 25% 25%; margin-right: 1%; margin-left: 1%;">
+                <div style="width: 100%; height: 100%;" id="carousel-example-2" class="carousel slide carousel-fade"
                      data-ride="carousel">
                     <ol class="carousel-indicators">
                         {% for i in range(files|length)%}
@@ -56,17 +57,15 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
-                <div style="float: right;">
-                   <table style="height: 100%;">
-                        <tr><td><div class="alert alert-warning" role="alert">
+                <div style="margin-left: 2%; display: grid; grid-template-rows: 30% 40% 30%;">
+                    <div class="alert alert-warning" role="alert">
                             <h3>Категория: {{ object.category }}</h3>
-                        </div></td></tr>
-                        <tr><td><div style="word-wrap: break-word;" class="alert alert-warning" role="alert">
+                    </div>
+                    <div style="word-wrap: break-word;" class="alert alert-warning" role="alert">
                             Продавец: <a href="/profile/{{ author.id }}">{{ author.name }}</a><br>
                             На DinoTrade с {{ date }}
-                        </div></td></tr>
-                        <tr>
-                            <td>
+                    </div>
+                        <div>
                                 <form action="" class="login_form" method=post enctype=multipart/form-data>
                                     <div class="form-group">
                                         <label for="photo">Приложите фотографию</label>
@@ -74,20 +73,24 @@
                                     </div>
                                     <button type="submit" class="btn btn-primary">Добавить фото</button>
                                 </form>
-                            </td>
-                        </tr>
-                    </table>
+                        </div>
                 </div>
-                <div>
-                    <table style="width: 100%;">
-                        <tr><td><div style="width: 50%; word-wrap: break-word;" class="alert alert-warning" role="alert">
+                <div style="margin-left: 2%; display: grid; grid-template-rows: 15% 85%;">
+                        <div style="width: 100%; height: 100%; word-wrap: break-word;" class="alert alert-warning" role="alert">
+                            <h2>Цена: {{ object.price }} руб.</h2>
+                        </div>
+                        <div style="width: 100%; height: 100%; word-wrap: break-word;" class="alert alert-dark" role="alert">
                             Описание: {{ object.description }}
-                        </div></td></tr>
-                        <tr><td><div style="width: 50%; word-wrap: break-word;" class="alert alert-warning" role="alert">
-                            Цена: {{ object.price }} руб.
-                        </div></td></tr>
-                    </table>
+                        </div>
                 </div>
+                {% if current_user.id == author.id or current_user.admin >= 1 %}
+                    <div>
+                        <div style="margin-left: 2%; width: 100%; word-wrap: break-word;">
+                            <a style="width:100%;" href="/edit_object/{{ object.id }}" class="btn btn-warning">Изменить</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
     </div>
     <script
             src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
