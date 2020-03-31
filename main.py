@@ -1,16 +1,16 @@
-from flask import Flask, render_template, redirect, request, make_response, session, abort, jsonify
+from flask import redirect, request, make_response, abort, jsonify
 from flask_wtf import FlaskForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, FileField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
 from wtforms import IntegerField, RadioField
 from wtforms.validators import DataRequired, Length
 from flask import Flask, render_template
 from data import db_session, objects, users
-from flask_restful import reqparse, abort, Api, Resource
+from flask_restful import abort, Api
 import os
-import objects_resorce, users_resource
-from password_algorithms import chek_password_combination
-from phone_number_algorithms import check_phone
+from resources import objects_resorce, users_resource
+from algorithms.password_algorithms import chek_password_combination
+from algorithms.phone_number_algorithms import check_phone
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
