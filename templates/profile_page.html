@@ -1,20 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% set months = {
-    1: 'января',
-    2: 'февраля',
-    3: 'марта',
-    4: 'апреля',
-    5: 'мая',
-    6: 'июня',
-    7: 'июля',
-    8: 'августа',
-    9: 'сентября',
-    10: 'октября',
-    11: 'ноября',
-    12: 'декабря'
-    } %}
     <div>
         <div>
             <h2>Пользователь сайта</h2>
@@ -68,34 +54,36 @@
                     <td class="active">Аватарочка:</td>
                     <td class="active"><img style="border-radius: 10px;" src="{{ files }}" height="100" width="100"></td>
                 </tr>
-                {% if user.id == current_user.id %}
-                    <tr>
-                        <td>
-                            <a class="btn btn-primary" href="/confirm_password/{{ user.id }}">Редактировать</a>
-                        </td>
-                    </tr>
-                {% endif %}
-                {% if current_user.admin > 0 %}
-                    <tr>
-                        <td>
-                            {% if user.block == 0 and user.id != current_user.id and current_user.admin > user.admin %}
-                                <a class="btn btn-danger" href="/block/{{ user.id }}">Заблокировать</a>
-                            {% elif user.block == 1%}
-                                <a class="btn btn-success" href="/unblock/{{ user.id }}">Разблокировать</a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endif %}
-                {% if current_user.admin > 1 %}
-                    <tr>
-                        <td>
-                            {% if user.admin == 0 %}
-                                <a class="btn btn-success" href="/promote/{{ user.id }}">Повысить до хелпера</a>
-                            {% elif user.admin == 1 %}
-                                <a class="btn btn-danger" href="/drop/{{ user.id }}">Понизить до юзера</a>
-                            {% endif %}
-                        </td>
-                    </tr>
+                {% if current_user.is_authenticated %}
+                    {% if user.id == current_user.id %}
+                        <tr>
+                            <td>
+                                <a class="btn btn-primary" href="/confirm_password/{{ user.id }}">Редактировать</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if current_user.admin > 0 %}
+                        <tr>
+                            <td>
+                                {% if user.block == 0 and user.id != current_user.id and current_user.admin > user.admin %}
+                                    <a class="btn btn-danger" href="/block/{{ user.id }}">Заблокировать</a>
+                                {% elif user.block == 1%}
+                                    <a class="btn btn-success" href="/unblock/{{ user.id }}">Разблокировать</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if current_user.admin > 1 %}
+                        <tr>
+                            <td>
+                                {% if user.admin == 0 %}
+                                    <a class="btn btn-success" href="/promote/{{ user.id }}">Повысить до хелпера</a>
+                                {% elif user.admin == 1 %}
+                                    <a class="btn btn-danger" href="/drop/{{ user.id }}">Понизить до юзера</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
                 {% endif %}
             </table>
         </div>

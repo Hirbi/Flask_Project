@@ -197,7 +197,6 @@ def users_list():
 
 
 @app.route('/profile/<int:id>')
-@login_required
 def profile(id):
     sessions = db_session.create_session()
     user = sessions.query(users.User).filter(users.User.id == id).first()
