@@ -6,13 +6,14 @@ from wtforms import IntegerField, RadioField
 from wtforms.validators import DataRequired, Length
 from flask import Flask, render_template
 from data import db_session, objects, users
-from werkzeug.utils import secure_filename
-import datetime
+from flask_restful import reqparse, abort, Api, Resource
 import os
+import objects_resorce, users_resource
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['SECRET_KEY'] = 'asdads_secret_key'
+api = Api(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 UPLOAD_FOLDER = os.getcwd() + '/static/img'
@@ -410,4 +411,9 @@ def main_page(category='Всекатегории'):
 
 if __name__ == '__main__':
     db_session.global_init("db/blogs.sqlite")
+    api.add_resource(objects_resorce.ObjectsListResource, '/api/v0.1/objects')
+    api.add_resource(objects_resorce.ObjResource, '/api/v0.1/objects/<int:obj_id>')
+    # ------------------------------------------------
+    api.add_resource(users_resource.UsersListResource, '/api/v0.1/users')
+    api.add_resource(users_resource.UsersResource, '/api/v0.1/users/<int:user_id>')
     app.run(port=8080, host='127.0.0.1')
