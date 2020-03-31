@@ -26,6 +26,9 @@
                     <p>
                         {{ form.email.label }}<br>
                         {{ form.email(class="form-control", type="email") }}<br>
+                        {% if email_message %}
+                            <p class="alert alert-danger" role="alert">{{ email_message }}</p>
+                        {% endif %}
                         {% for error in form.email.errors %}
                             <p class="alert alert-danger" role="alert">
                                 {{ error }}
@@ -39,6 +42,13 @@
                     <p>
                         {{ form.password.label }}<br>
                         {{ form.password(class="form-control", type="password") }}<br>
+                        {% if pass_message %}
+                            {% if pass_message == 'Слишком слабый пароль'%}
+                                <p class="alert alert-danger" role="alert">Пароль должен содержать 8 символов, латинсике буквы верхнего и нижнего регистра, нижний пробел, 3 цифры, и в нём не должно быть более 3 идущих подряд одинаковых символов!</p>
+                            {% else %}
+                                <p class="alert alert-danger" role="alert">{{ pass_message }}</p>
+                            {% endif %}
+                        {% endif %}
                         {% for error in form.password.errors %}
                             <p class="alert alert-danger" role="alert">
                                 {{ error }}
@@ -78,6 +88,9 @@
                     <p>
                         {{ form.phone.label }}<br>
                         {{ form.phone(class="form-control") }}<br>
+                        {% if phone_message %}
+                            <p class="alert alert-danger" role="alert"> {{ phone_message }} </p>
+                        {% endif %}
                         {% for error in form.phone.errors %}
                             <p class="alert alert-danger" role="alert">
                                 {{ error }}

@@ -9,6 +9,8 @@ from data import db_session, objects, users
 from flask_restful import reqparse, abort, Api, Resource
 import os
 import objects_resorce, users_resource
+from password_algorithms import chek_password_combination
+from phone_number_algorithms import check_phone
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
@@ -374,15 +376,23 @@ def drop(id):
 def reqister():
     form = RegisterForm()
     if form.validate_on_submit():
+        if not chek_password_combination(form.password.data):
+            return render_template('register.html',
+                                   form=form, title='Регистрация',
+                                   pass_message="Слишком слабый пароль")
         if form.password.data != form.password_again.data:
             return render_template('register.html',
                                    form=form, title='Регистрация',
-                                   message="Пароли не совпадают")
+                                   pass_message="Пароли не совпадают")
+        if not check_phone(form.phone.data)[0]:
+            return render_template('register.html',
+                                   form=form, title='Регистрация',
+                                   phone_message=check_phone(form.phone.data)[1])
         sessions = db_session.create_session()
         if sessions.query(users.User).filter(users.User.email == form.email.data).first():
             return render_template('register.html',
                                    form=form, title='Регистрация',
-                                   message="Такой пользователь уже есть")
+                                   email_message="Пользователь с такой почтой уже существует")
         user = users.User(
             name=form.name.data,
             email=form.email.data,
