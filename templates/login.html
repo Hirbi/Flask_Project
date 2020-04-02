@@ -5,7 +5,7 @@
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <div id="block" class="alert alert-primary" role="alert" style="border-radius: 50px 50px 50px 50px; width: 30%; margin: 0 auto;">
-            <table align="center">
+            <table align="center" width="70%">
                 <tr>
                     <td>
                         <p>
@@ -24,6 +24,9 @@
                         <p>
                             {{ form.password.label }} <br>
                             {{ form.password(class="form-control", type="password") }} <br>
+                            {% if message %}
+                                <div class="alert alert-danger" role="alert"> {{ message }} </div>
+                            {% endif %}
                             {% for error in form.password.errors %}
                                 <div class="alert alert-danger" role="alert">
                                     {{ error }}
@@ -35,7 +38,6 @@
             </table>
             <p align="center"> {{ form.remember_me() }} {{ form.remember_me.label }} </p>
             <p align="center"> {{ form.submit(type="submit", class="btn btn-primary") }} </p>
-            <div> {{ message }} </div>
         </div>
     </form>
 {% endblock %}
