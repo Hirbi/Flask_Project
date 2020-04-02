@@ -254,7 +254,15 @@ def show_obj(id):
     session = db_session.create_session()
     obj = session.query(objects.Object).filter(objects.Object.id == id).first()
     if request.method == 'POST':
-        file, filename = open_file(id, 'object')
+        try:
+            file, filename = open_file(id, 'object')
+        except Exception:
+            files = obj.pictures.split()
+            return render_template('object_page.html', files=files,
+                                   author=obj.user,
+                                   object=obj,
+                                   title=f'Объявление {obj.name}',
+                                   date=return_date(obj.user))
         if obj:
             if filename not in obj.pictures:
                 obj.pictures = str(obj.pictures) + ' ' + filename + ' '

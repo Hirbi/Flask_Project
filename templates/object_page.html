@@ -8,92 +8,97 @@
     <div align="left" class="alert alert-secondary" role="alert" style="border-radius: 50px 50px 50px 50px; width: 96%; margin-left: 2%;
             height: 100%; margin-top: 2%;">
         <div style="word-wrap: break-word;" class="alert alert-info" role="alert"><h1 align="center">Объявление {{ object.name }}</h1></div>
-            <div style="display: grid; grid-template-columns: 35% 15% 25% 25%; margin-right: 1%; margin-left: 1%;">
-                <div style="width: 100%; height: 100%;" id="carousel-example-2" class="carousel slide carousel-fade"
-                     data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        {% for i in range(files|length)%}
-                            <li data-target="#carousel-example-2" data-slide-to="0"
-                                class="active"></li>
-                        {% endfor %}
-                    </ol>
-                    <div class="carousel-inner" role="listbox">
-                        {% if files %}
-                            {% for file in files %}
-                                {% if loop.index == 1%}
-                                    <div class="carousel-item active">
-                                        <div class="view" style="">
-                                            <img width="100" height="600" style="border-radius: 10px 10px 10px 10px;" class="d-block w-100" src="{{ file }}">
-                                            <div class="mask rgba-black-light"></div>
-                                        </div>
-                                    </div>
-                                {% else %}
-                                    <div class="carousel-item">
-                                        <!--Mask color-->
-                                        <div class="view">
-                                            <img width="100" height="600" style="border-radius: 10px 10px 10px 10px;" class="d-block w-100" src="{{ file }}">
-                                            <div class="mask rgba-black-strong"></div>
-                                        </div>
-                                    </div>
-                                {% endif %}
+            <div style="display: grid; grid-template-columns: 35% 40% 25%; margin-right: 1%; margin-left: 1%;">
+                <div style="display: grid; grid-template-rows: 90% 10%; margin-right: 1%; margin-left: 1%;">
+                    <div style="width: 100%; height: 100%;" id="carousel-example-2" class="carousel slide carousel-fade"
+                         data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            {% for i in range(files|length)%}
+                                <li data-target="#carousel-example-2" data-slide-to="0"
+                                    class="active"></li>
                             {% endfor %}
-                        {% else %}
-                            <div class="carousel-item active">
-                                <div class="view" style="">
-                                    <img style="border-radius: 10px 10px 10px 10px;" class="d-block w-100" src="../static/img/not_found.png">
-                                    <div class="mask rgba-black-light"></div>
+                        </ol>
+                        <div class="carousel-inner" role="listbox">
+                            {% if files %}
+                                {% for file in files %}
+                                    {% if loop.index == 1%}
+                                        <div class="carousel-item active">
+                                            <div class="view" style="">
+                                                <img width="100" height="600" style="border-radius: 10px 10px 10px 10px;" class="d-block w-100" src="{{ file }}">
+                                                <div class="mask rgba-black-light"></div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="carousel-item">
+                                            <!--Mask color-->
+                                            <div class="view">
+                                                <img width="100" height="600" style="border-radius: 10px 10px 10px 10px;" class="d-block w-100" src="{{ file }}">
+                                                <div class="mask rgba-black-strong"></div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <div class="carousel-item active">
+                                    <div class="view" style="">
+                                        <img style="border-radius: 10px 10px 10px 10px;" class="d-block w-100" src="../static/img/not_found.png">
+                                        <div class="mask rgba-black-light"></div>
+                                    </div>
                                 </div>
-                            </div>
-                        {% endif %}
+                            {% endif %}
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel-example-2"
+                           role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel-example-2"
+                           role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
-                    <a class="carousel-control-prev" href="#carousel-example-2"
-                       role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carousel-example-2"
-                       role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
-                <div style="margin-left: 2%; display: grid; grid-template-rows: 30% 40% 30%;">
                     <div class="alert alert-warning" role="alert">
                             <h3>Категория: {{ object.category }}</h3>
                     </div>
-                    <div style="word-wrap: break-word;" class="alert alert-warning" role="alert">
-                            Продавец: <a href="/profile/{{ author.id }}">{{ author.name }}</a><br>
-                            На DinoTrade с {{ date }}
-                    </div>
-                        {% if current_user.is_authenticated and current_user.id == author.id %}
-                            <div>
-                                    <form action="" class="login_form" method=post enctype=multipart/form-data>
-                                        <div class="form-group">
-                                            <label for="photo">Приложите фотографию</label>
-                                            <input type="file" class="form-control-file" id="photo" name="file">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Добавить фото</button>
-                                    </form>
-                            </div>
-                        {% endif %}
                 </div>
-                <div style="margin-left: 2%; display: grid; grid-template-rows: 15% 85%;">
+                <div style="margin-left: 2%; display: grid; grid-template-rows: 15% 70% 15%;">
                         <div style="width: 100%; height: 100%; word-wrap: break-word;" class="alert alert-warning" role="alert">
                             <h2>Цена: {{ object.price }} руб.</h2>
                         </div>
-                        <div style="width: 100%; height: 100%; word-wrap: break-word;" class="alert alert-dark" role="alert">
-                            Описание: {{ object.description }}
-                        </div>
-                </div>
-                {% if current_user.is_authenticated %}
-                    {% if current_user.id == author.id or current_user.admin >= 1 %}
-                        <div>
-                            <div style="margin-left: 2%; width: 100%; word-wrap: break-word;">
-                                <a style="width:100%;" href="/edit_object/{{ object.id }}" class="btn btn-warning">Изменить</a>
+                        <div style="display: grid; grid-template-columns: 20% 80%;">
+                            {% if current_user.is_authenticated and current_user.id == author.id %}
+                                <div style="margin-right: 2%;">
+                                        <form action="" class="login_form" method=post enctype=multipart/form-data>
+                                            <div class="form-group">
+                                                <label for="photo">Приложите фотографию</label>
+                                                <input type="file" class="form-control-file" id="photo" name="file">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Добавить фото</button>
+                                        </form>
+                                </div>
+                            {% endif %}
+                            <div style="width: 100%; height: 100%; word-wrap: break-word; font-size: 20pt;" class="alert alert-dark" role="alert">
+                                Описание: {{ object.description }}
                             </div>
                         </div>
-                    {% endif %}
-                {% endif %}
+                        {% if current_user.is_authenticated %}
+                            {% if current_user.id == author.id or current_user.admin >= 1 %}
+                                <div>
+                                    <div style="width: 100%; word-wrap: break-word;">
+                                        <a style="width:100%;" href="/edit_object/{{ object.id }}" class="btn btn-warning">Изменить</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                </div>
+                <div style="margin-left: 2%; word-wrap: break-word; font-size: 15pt;" class="alert alert-warning" role="alert">
+                            <h4> Информация о продавце </h4>
+                            Продавец: <a href="/profile/{{ author.id }}">{{ author.name }}</a><br>
+                            Телефон: {{ author.phone }}<br>
+                            Почта: {{ author.email }}<br>
+                            На DinoTrade с {{ date }}
+                </div>
             </div>
     </div>
     <script
