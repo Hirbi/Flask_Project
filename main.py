@@ -175,7 +175,7 @@ def edit_obj(id):
             return redirect("/")
         else:
             abort(404)
-    return render_template('add_objects.html', title='Редактирование объекта', form=form)
+    return render_template('add_objects.html', title='Редактирование объекта', form=form, id=id)
 
 
 @app.route('/change_avatar', methods=['GET', 'POST'])
@@ -342,7 +342,11 @@ def add_obj():
         sessions.merge(current_user)
         sessions.commit()
         return redirect('/')
-    return render_template('add_objects.html', title='Новое объявление', form=form, files=files)
+    return render_template('add_objects.html',
+                           title='Новое объявление',
+                           form=form,
+                           files=files,
+                           id=None)
 
 
 @app.route('/login', methods=['GET', 'POST'])

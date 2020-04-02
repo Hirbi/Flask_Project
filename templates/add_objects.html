@@ -44,7 +44,9 @@
                     </p>
                 {% endfor %}
             </p>
-            <p> {{ form.sold() }} {{ form.sold.label }} </p>
+            {% if id != None %}
+                <p> {{ form.sold() }} {{ form.sold.label }} </p>
+            {% endif %}
             <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
             {{ message }}
         </form>
