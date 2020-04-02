@@ -65,15 +65,17 @@
                             Продавец: <a href="/profile/{{ author.id }}">{{ author.name }}</a><br>
                             На DinoTrade с {{ date }}
                     </div>
-                        <div>
-                                <form action="" class="login_form" method=post enctype=multipart/form-data>
-                                    <div class="form-group">
-                                        <label for="photo">Приложите фотографию</label>
-                                        <input type="file" class="form-control-file" id="photo" name="file">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Добавить фото</button>
-                                </form>
-                        </div>
+                        {% if current_user.is_authenticated and current_user.id == author.id %}
+                            <div>
+                                    <form action="" class="login_form" method=post enctype=multipart/form-data>
+                                        <div class="form-group">
+                                            <label for="photo">Приложите фотографию</label>
+                                            <input type="file" class="form-control-file" id="photo" name="file">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Добавить фото</button>
+                                    </form>
+                            </div>
+                        {% endif %}
                 </div>
                 <div style="margin-left: 2%; display: grid; grid-template-rows: 15% 85%;">
                         <div style="width: 100%; height: 100%; word-wrap: break-word;" class="alert alert-warning" role="alert">
