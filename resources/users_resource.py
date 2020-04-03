@@ -62,6 +62,7 @@ class UsersListResource(Resource):
             phone=args['phone'],
             email=args['email'],
             password=args['password'],
+            town=args['town'],
             created_date=args['created_date'],
             block=args['block']
         )

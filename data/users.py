@@ -18,7 +18,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     town = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     phone = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     avatar = sqlalchemy.Column(sqlalchemy.String, nullable=False,
-                               default='/static/img/new_logo.png')
+                               default='/static/img/logo.png')
     admin = sqlalchemy.Column(sqlalchemy.Integer, default=0)
     block = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
     objects = orm.relation('Object', back_populates='user')
