@@ -3,7 +3,7 @@
 {% block content %}
 <div style="width: 30%; float: left; margin-left: 2%;">
     <div class="d-flex p-2">
-        <table align="right" class="table" width="100%">
+        <table align="right" width="100%">
             <caption style="caption-side: top;"><h3 class="alert alert-warning" role="alert"> Категории товаров </h3></caption>
             <tr class="list-group-item list-group-item-secondary">
                 <td>
@@ -11,7 +11,7 @@
                         <form action="" method="post">
                             {{ form.hidden_tag() }}
                             {{ form.csrf_token }}
-                            <div>{{ form.find_line.label }}</div>
+                            <div><span style="font-size: 20pt;">{{ form.find_line.label }}</span></div>
                             <div style="float: left;">
                                 {{ form.find_line(class="form-control") }}
                                 {% for error in form.find_line.errors %}
@@ -20,24 +20,24 @@
                                     </p>
                                 {% endfor %}
                             </div>
-                            <div style="float: right;">{{ form.find_button(type="submit", class="btn btn-primary") }}</div>
+                            <div style="float: right;">{{ form.find_button(type="submit", class="btn btn-dark") }}</div>
                         </form>
                     </nav>
                 </td>
             </tr>
-            <tr class="list-group-item list-group-item-secondary"><td> <a href="/index/Всекатегории"><h4>Все категории</h4></a> </td></tr>
-            <tr class="list-group-item list-group-item-secondary"><td> <a href="/index/Одежда"><h4>Одежда</h4></a> </td></tr>
-            <tr class="list-group-item list-group-item-secondary"><td> <a href="/index/Техника"><h4>Техника</h4></a> </td></tr>
-            <tr class="list-group-item list-group-item-secondary"><td> <a href="/index/Мебель"><h4>Мебель</h4></a> </td></tr>
-            <tr class="list-group-item list-group-item-secondary"><td> <a href="/index/Животные"><h4>Животные</h4></a> </td></tr>
-            <tr class="list-group-item list-group-item-secondary"><td> <a href="/index/Другое"><h4>Другое</h4></a> </td></tr>
+            <tr class="list-group-item list-group-item-secondary"><td> <a style="color: #333;" href="/index/Всекатегории"><h4>Все категории</h4></a> </td></tr>
+            <tr class="list-group-item list-group-item-secondary"><td> <a style="color: #333;" href="/index/Одежда"><h4>Одежда</h4></a> </td></tr>
+            <tr class="list-group-item list-group-item-secondary"><td> <a style="color: #333;" href="/index/Техника"><h4>Техника</h4></a> </td></tr>
+            <tr class="list-group-item list-group-item-secondary"><td> <a style="color: #333;" href="/index/Мебель"><h4>Мебель</h4></a> </td></tr>
+            <tr class="list-group-item list-group-item-secondary"><td> <a style="color: #333;" href="/index/Животные"><h4>Животные</h4></a> </td></tr>
+            <tr class="list-group-item list-group-item-secondary"><td> <a style="color: #333;" href="/index/Другое"><h4>Другое</h4></a> </td></tr>
         </table>
     </div>
 </div>
 <div class="d-flex p-2" style="width: 66%; table-layout: auto;">
     <div class="alert alert-secondary" role="alert" style="width: 100%;">
         {% set arr = [] %}
-        <table class="table" style="margin-left: 3%; margin-bot: 2%; height: 100%;">
+        <table style="margin-left: 5%; margin-bot: 2%; height: 100%;">
             {% for object in objects %}
                 {% if loop.index % 3 == 1 %}
                     <tr>
@@ -48,10 +48,10 @@
                             <div class="card" style="height: 100%; width: 302px; background: url(../static/img/not_found.png) no-repeat; margin-bot: 2%;">
                                 <img src="{{ object.pictures.split()[0] }}" class="card-img-top" height="300px" width="302px">
                                 <div class="card-body"></div>
-                                    <h5 align="center" class="card-title">{{ object.name }}</h5>
-                                    <p class="card-text">Цена: {{ object.price }} руб.</p>
-                                    <p class="card-text">Категория: {{ object.category }}</p>
-                                    <p class="card-text"><div style="height: 100px; max-height: calc(100vh - 56px); overflow-x: hidden; overflow-y: auto;">Описание: {{ object.description }}</div></p>
+                                    <h4 align="center" class="card-title">{{ object.name }}</h4>
+                                    <p class="card-text"><span style="font-size: 20pt;">Цена: {{ object.price }} руб.</span></p>
+                                    <p class="card-text"><span style="font-size: 18pt;">Категория: {{ object.category }}</span></p>
+                                    <p class="card-text"><span style="font-size: 18pt;">Описание:</span><div style="height: 100px; max-height: calc(100vh - 56px); overflow-x: hidden; overflow-y: auto;">{{ object.description }}</div></p>
                                     {% if current_user.is_authenticated and (current_user == object.user or current_user.admin > 0)%}
                                         <div>
                                             <div style="width: 50%; float: left;"><a style="width:100%" href="/edit_object/{{ object.id }}" class="btn btn-warning">Изменить</a></div>

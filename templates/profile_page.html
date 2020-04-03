@@ -17,7 +17,7 @@
             <td width="50%" align="center"><h4>Активные объявления пользователя</h4></td>
         </table>
         <div class="alert alert-secondary" role="alert" style="width: 48%; float: left;  margin-left: 2%;">
-            <table align="center" class="table">
+            <table style="font-size: 15pt;" align="center" class="table">
                 <tr>
                     <td class="active">На сайте с: </td>
                     <td> {{ date }}</td>
@@ -41,14 +41,6 @@
                 <tr>
                     <td class="active">Создано объявлений:</td>
                     <td> {{ kolvo }} </td>
-                </tr>
-                <tr>
-                    <td class="active">Рейтинг:</td>
-                    {% if user.rating == None %}
-                        <td>Без рейтинга</td>
-                    {% else %}
-                        <td> {{user.rating}} </td>
-                    {% endif %}
                 </tr>
                 <tr>
                     <td class="active">Аватарочка:</td>
