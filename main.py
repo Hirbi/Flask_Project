@@ -477,31 +477,51 @@ def main_page(category='Всекатегории'):
     sessions = db_session.create_session()
     what_we_want_to_find = ''
     if sort_desc_form.sort_descending.data:
-        objs = sessions.query(objects.Object).filter(objects.Object.sold == 0).order_by(
-            objects.Object.price.desc())
+        if category != 'Всекатегории':
+            objs = sessions.query(objects.Object).filter(objects.Object.sold == 0,
+                                                         objects.Object.category == category)\
+                .order_by(
+                objects.Object.price.desc())
+        else:
+            objs = sessions.query(objects.Object).filter(objects.Object.sold == 0).order_by(
+                objects.Object.price.desc())
         return render_template('main_page.html', category=category, current_user=current_user,
-                               title='DinoTrade', objects=objs, form=form, sort_asc_form=sort_asc_form, sort_desc_form=sort_desc_form,
+                               title='DinoTrade', objects=objs, form=form,
+                               sort_asc_form=sort_asc_form, sort_desc_form=sort_desc_form,
                                name='', find=False)
     if sort_asc_form.sort_ascending.data:
-        objs = sessions.query(objects.Object).filter(objects.Object.sold == 0).order_by(objects.Object.price)
+        if category != 'Всекатегории':
+            objs = sessions.query(objects.Object).filter(objects.Object.sold == 0,
+                                                         objects.Object.category == category)\
+                .order_by(objects.Object.price)
+        else:
+            objs = sessions.query(objects.Object).filter(objects.Object.sold == 0).order_by(
+                objects.Object.price)
         return render_template('main_page.html', category=category, current_user=current_user,
-                               title='DinoTrade', objects=objs, form=form, sort_asc_form=sort_asc_form,  sort_desc_form=sort_desc_form,
+                               title='DinoTrade', objects=objs, form=form,
+                               sort_asc_form=sort_asc_form, sort_desc_form=sort_desc_form,
                                name='', find=False)
     if form.find_line.data:
         what_we_want_to_find = form.find_line.data
     if request.method == 'GET':
-        objs = sessions.query(objects.Object).filter(objects.Object.sold == 0)
+        if category != 'Всекатегории':
+            objs = sessions.query(objects.Object).filter(objects.Object.sold == 0,
+                                                         objects.Object.category==category)
+        else:
+            objs = sessions.query(objects.Object).filter(objects.Object.sold == 0)
         return render_template('main_page.html', category=category, current_user=current_user,
-                               title='DinoTrade', objects=objs, form=form, sort_asc_form=sort_asc_form, sort_desc_form=sort_desc_form,
+                               title='DinoTrade', objects=objs, form=form,
+                               sort_asc_form=sort_asc_form, sort_desc_form=sort_desc_form,
                                name='', find=False)
     if form.validate_on_submit():
         objs = sessions.query(objects.Object).filter(
             objects.Object.name_for_find.like(
-                f'%{what_we_want_to_find}%'),objects.Object.sold == 0)
+                f'%{what_we_want_to_find}%'), objects.Object.sold == 0)
         return render_template('main_page.html',
                                category=category,
                                current_user=current_user,
-                               title='DinoTrade', sort_asc_form=sort_asc_form, sort_desc_form=sort_desc_form,
+                               title='DinoTrade', sort_asc_form=sort_asc_form,
+                               sort_desc_form=sort_desc_form,
                                objects=objs, form=form)
 
 
