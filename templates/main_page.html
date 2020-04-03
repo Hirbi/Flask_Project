@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+
 <div style="width: 30%; float: left; margin-left: 2%;">
     <div class="d-flex p-2">
         <table align="right" width="100%">
@@ -25,6 +28,29 @@
                     </nav>
                 </td>
             </tr>
+            <tr class="list-group-item list-group-item-secondary">
+                <td>
+                    <div style="display: grid; grid-template-rows: 50% 50%">
+                        <div style="font-size: 18pt;">Сортировать цену по:</div>
+                        <div style="display: grid; grid-template-columns: 50% 50%;">
+                            <div style="width: 100%; margin-right: 60px;" align="left">
+                                <form action="" method="post">
+                                    {{ form.hidden_tag() }}
+                                    {{ form.csrf_token }}
+                                    <p align="left"> {{ sort_asc_form.sort_ascending(type="submit", class="btn btn-warning") }} </p>
+                                </form>
+                            </div>
+                            <div style="width: 100%;" align="left">
+                                <form action="" method="post">
+                                    {{ form.hidden_tag() }}
+                                    {{ form.csrf_token }}
+                                    <p align="left"> {{ sort_desc_form.sort_descending(type="submit", class="btn btn-warning") }} </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
             <tr class="list-group-item list-group-item-secondary"><td> <a style="color: #333;" href="/index/Всекатегории"><h4>Все категории</h4></a> </td></tr>
             <tr class="list-group-item list-group-item-secondary"><td> <a style="color: #333;" href="/index/Одежда"><h4>Одежда</h4></a> </td></tr>
             <tr class="list-group-item list-group-item-secondary"><td> <a style="color: #333;" href="/index/Техника"><h4>Техника</h4></a> </td></tr>
@@ -35,9 +61,9 @@
     </div>
 </div>
 <div class="d-flex p-2" style="width: 66%; table-layout: auto;">
-    <div class="alert alert-secondary" role="alert" style="width: 100%;">
+    <div class="alert alert-warning" role="alert" style="width: 100%;">
         {% set arr = [] %}
-        <table style="margin-left: 5%; margin-bot: 2%; height: 100%;">
+        <table style="margin-left: 5%; margin-bot: 2%; height: 100%; ">
             {% for object in objects %}
                 {% if loop.index % 3 == 1 %}
                     <tr>
@@ -54,8 +80,8 @@
                                     <p class="card-text"><span style="font-size: 18pt;">Описание:</span><div style="height: 100px; max-height: calc(100vh - 56px); overflow-x: hidden; overflow-y: auto;">{{ object.description }}</div></p>
                                     {% if current_user.is_authenticated and (current_user == object.user or current_user.admin > 0)%}
                                         <div>
-                                            <div style="width: 50%; float: left;"><a style="width:100%" href="/edit_object/{{ object.id }}" class="btn btn-warning">Изменить</a></div>
-                                            <div style="width: 50%; float: right;"><a style="width:100%" href="/object_delete/{{ object.id }}" class="btn btn-danger">Удалить</a></div>
+                                            <div style="width: 48%; float: left;"><a style="width:100%" href="/edit_object/{{ object.id }}" class="btn btn-warning">Изменить</a></div>
+                                            <div style="width: 48%; float: right;"><a style="width:100%" href="/object_delete/{{ object.id }}" class="btn btn-danger">Удалить</a></div>
                                         </div>
                                     {% endif %}
                                     <a href="/obj/{{ object.id }}" class="btn btn-primary">Перейти</a>

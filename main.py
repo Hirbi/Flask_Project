@@ -90,6 +90,17 @@ class ObjectsForm(FlaskForm):
     submit = SubmitField('Сохранить')
 
 
+class SortAscending(FlaskForm):
+    sort_ascending = SubmitField('Возрастанию')
+
+    def __repr__(self):
+        return 'Возрастание'
+
+
+class SortDescending(FlaskForm):
+    sort_descending = SubmitField('Убыванию')
+
+
 class EditProfileForm(FlaskForm):
     new_name = StringField('Новое имя')
     new_email = StringField("Новая почта")
@@ -461,14 +472,27 @@ def reqister():
 @app.route('/index/<category>', methods=['GET', 'POST'])
 def main_page(category='Всекатегории'):
     form = FindObjectForm()
+    sort_asc_form = SortAscending()
+    sort_desc_form = SortDescending()
     sessions = db_session.create_session()
     what_we_want_to_find = ''
+    if sort_desc_form.sort_descending.data:
+        objs = sessions.query(objects.Object).filter(objects.Object.sold == 0).order_by(
+            objects.Object.price.desc())
+        return render_template('main_page.html', category=category, current_user=current_user,
+                               title='DinoTrade', objects=objs, form=form, sort_asc_form=sort_asc_form, sort_desc_form=sort_desc_form,
+                               name='', find=False)
+    if sort_asc_form.sort_ascending.data:
+        objs = sessions.query(objects.Object).filter(objects.Object.sold == 0).order_by(objects.Object.price)
+        return render_template('main_page.html', category=category, current_user=current_user,
+                               title='DinoTrade', objects=objs, form=form, sort_asc_form=sort_asc_form,  sort_desc_form=sort_desc_form,
+                               name='', find=False)
     if form.find_line.data:
         what_we_want_to_find = form.find_line.data
     if request.method == 'GET':
         objs = sessions.query(objects.Object).filter(objects.Object.sold == 0)
         return render_template('main_page.html', category=category, current_user=current_user,
-                               title='DinoTrade', objects=objs, form=form,
+                               title='DinoTrade', objects=objs, form=form, sort_asc_form=sort_asc_form, sort_desc_form=sort_desc_form,
                                name='', find=False)
     if form.validate_on_submit():
         objs = sessions.query(objects.Object).filter(
@@ -477,7 +501,7 @@ def main_page(category='Всекатегории'):
         return render_template('main_page.html',
                                category=category,
                                current_user=current_user,
-                               title='DinoTrade',
+                               title='DinoTrade', sort_asc_form=sort_asc_form, sort_desc_form=sort_desc_form,
                                objects=objs, form=form)
 
 
