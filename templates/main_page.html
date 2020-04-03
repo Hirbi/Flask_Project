@@ -48,10 +48,10 @@
                             <div class="card" style="height: 100%; width: 302px; background: url(../static/img/not_found.png) no-repeat; margin-bot: 2%;">
                                 <img src="{{ object.pictures.split()[0] }}" class="card-img-top" height="300px" width="302px">
                                 <div class="card-body"></div>
-                                    <h5 class="card-title">{{ object.name }}</h5>
+                                    <h5 align="center" class="card-title">{{ object.name }}</h5>
                                     <p class="card-text">Цена: {{ object.price }} руб.</p>
                                     <p class="card-text">Категория: {{ object.category }}</p>
-                                    <p class="card-text">Описание: {{ object.description }}</p>
+                                    <p class="card-text"><div style="height: 100px; max-height: calc(100vh - 56px); overflow-x: hidden; overflow-y: auto;">Описание: {{ object.description }}</div></p>
                                     {% if current_user.is_authenticated and (current_user == object.user or current_user.admin > 0)%}
                                         <div>
                                             <div style="width: 50%; float: left;"><a style="width:100%" href="/edit_object/{{ object.id }}" class="btn btn-warning">Изменить</a></div>

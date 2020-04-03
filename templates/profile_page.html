@@ -93,13 +93,13 @@
                     {% for object in not_sold_objs %}
                         {% set check = check.append(1) %}
                         <div class="alert alert-warning" role="alert" style="width: 100%; margin-left: 21%;">
-                            <div style="width: 50%; float: left; word-wrap: break-word; margin: 10px;">
+                            <div style="width: 527px; float: left; word-wrap: break-word;">
                                 <a href="/obj/{{ object.id }}">
                                     Название товара: {{ object.name }}<br>
-                                    Описание товара: <br><div>{{ object.description }}</div>
+                                    Описание товара: <br><div style="word-wrap: break-word;">{{ object.description }}</div>
                                 </a>
                             </div>
-                            <div style="float: right; margin: 10px;" class="item">
+                            <div style="float: right;" class="item">
                                 {% if object.pictures.strip() == '' or object.pictures == None%}
                                     <img src="../static/img/not_found.png" height="100" width="100">
                                 {% else %}
@@ -119,13 +119,13 @@
                     {% for object in sold_objs %}
                         {% set check = check.append(1) %}
                         <div class="alert alert-success" role="alert" style="width: 100%; margin-left: 21%;">
-                            <div style="width: 50%; float: left; word-wrap: break-word; margin: 10px;">
+                            <div style="width: 527px; float: left; word-wrap: break-word;">
                                 <a href="/obj/{{ object.id }}">
                                     Название товара: {{ object.name }}<br>
-                                    Описание товара: <br><div>{{ object.description }}</div>
+                                    Описание товара: <br><div style="word-wrap: break-word;">{{ object.description }}</div>
                                 </a>
                             </div>
-                            <div style="float: right; margin: 10px;" class="item">
+                            <div style="float: right;" class="item">
                                 {% if object.pictures.strip() == '' or object.pictures == None%}
                                     <img src="../static/img/not_found.png" height="100" width="100">
                                 {% else %}
