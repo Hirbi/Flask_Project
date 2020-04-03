@@ -62,15 +62,17 @@
                         <div style="margin-right: 4%;" class="alert alert-warning" role="alert">
                             <h3>Категория: <a href="/index/{{ object.category }}">{{ object.category }}</a></h3>
                         </div>
-                         <div style="margin-right: 2%;">
-                            <form action="" class="login_form" method=post enctype=multipart/form-data>
-                                <div class="form-group">
-                                    <label for="photo">Приложите фотографию</label>
-                                    <input type="file" class="form-control-file" id="photo" name="file">
-                                    <button type="submit" class="btn btn-primary">Добавить фото</button>
-                                </div>
-                            </form>
-                        </div>
+                        {% if current_user.is_authenticated and current_user.id == author.id %}
+                             <div style="margin-right: 2%;">
+                                <form action="" class="login_form" method=post enctype=multipart/form-data>
+                                    <div class="form-group">
+                                        <label for="photo">Приложите фотографию</label>
+                                        <input type="file" class="form-control-file" id="photo" name="file">
+                                        <button type="submit" class="btn btn-primary">Добавить фото</button>
+                                    </div>
+                                </form>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div style="margin-left: 2%; display: grid; grid-template-rows: 15% 70% 15%;">
