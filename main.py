@@ -166,7 +166,7 @@ def edit_obj(id):
         sessions = db_session.create_session()
         obj = sessions.query(objects.Object).filter(objects.Object.id == id).first()
         if obj:
-            form.name.data = obj.name[0].upper() + obj.name[1:]
+            form.name.data = obj.name
             form.price.data = obj.price
             form.description.data = obj.description
             form.category.data = obj.category
@@ -177,7 +177,7 @@ def edit_obj(id):
         sessions = db_session.create_session()
         obj = sessions.query(objects.Object).filter(objects.Object.id == id).first()
         if obj:
-            obj.name = form.name.data.lower()
+            obj.name = form.name.data
             obj.price = form.price.data
             obj.description = form.description.data
             obj.category = form.category.data
@@ -351,7 +351,7 @@ def add_obj():
     if form.validate_on_submit():
         sessions = db_session.create_session()
         obj = objects.Object()
-        obj.name = form.name.data.lower()
+        obj.name = form.name.data
         obj.name_for_find = form.name.data.lower()
         obj.price = form.price.data
         obj.description = form.description.data
@@ -516,7 +516,7 @@ def main_page(category='Всекатегории'):
     if form.validate_on_submit():
         objs = sessions.query(objects.Object).filter(
             objects.Object.name_for_find.like(
-                f'%{what_we_want_to_find.lower()}%'), objects.Object.sold == 0)
+                f'%{what_we_want_to_find}%'), objects.Object.sold == 0)
         return render_template('main_page.html',
                                category=category,
                                current_user=current_user,

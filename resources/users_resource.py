@@ -1,5 +1,6 @@
 from flask_restful import Resource, abort, reqparse
 from flask import jsonify
+import datetime
 from data import db_session, users
 
 
@@ -18,7 +19,6 @@ parser.add_argument('email', required=True)
 parser.add_argument('password', required=True)
 parser.add_argument('created_date', required=True)
 parser.add_argument('block', required=True)
-
 
 
 class UsersResource(Resource):
@@ -56,16 +56,20 @@ class UsersListResource(Resource):
     def post(self):
         args = parser.parse_args()
         session = db_session.create_session()
-        user = users.User(
-            id=args['id'],
-            name=args['name'],
-            phone=args['phone'],
-            email=args['email'],
-            password=args['password'],
-            town=args['town'],
-            created_date=args['created_date'],
-            block=args['block']
-        )
+        proverka = session.query(users.User).filter(users.User.id == args['id']).first()
+        if proverka:
+            abort(404, message=f"User with id = {args['id']} already exists")
+        user = users.User()
+        user.id = args['id']
+        user.name = args['name']
+        user.phone = args['phone']
+        user.email = args['email']
+        user.password = args['password']
+        user.town = 'Город'
+        user.created_date = datetime.datetime.now()
+        user.block = False
+        user.admin = 0
+        user.rating = None
         session.add(user)
         session.commit()
         return jsonify({'success': 'OK'})
