@@ -506,7 +506,7 @@ def main_page(category='Всекатегории'):
     if request.method == 'GET':
         if category != 'Всекатегории':
             objs = sessions.query(objects.Object).filter(objects.Object.sold == 0,
-                                                         objects.Object.category==category)
+                                                         objects.Object.category == category)
         else:
             objs = sessions.query(objects.Object).filter(objects.Object.sold == 0)
         return render_template('main_page.html', category=category, current_user=current_user,

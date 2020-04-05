@@ -68,7 +68,6 @@
                 {% if loop.index % 3 == 1 %}
                     <tr>
                 {% endif %}
-                    {% if category == object.category or category == 'Всекатегории' %}
                         {% set arr = arr.append(1) %}
                         <td width="25%">
                             <div class="card" style="height: 100%; width: 302px; background: url(../static/img/not_found.png) no-repeat; margin-bot: 2%;">
@@ -87,7 +86,6 @@
                                     <a href="/obj/{{ object.id }}" class="btn btn-primary">Перейти</a>
                             </div>
                         </td>
-                    {% endif %}
             {% endfor %}
             {% if arr|length == 0 %}
                 <tr><td><div class="alert alert-danger" role="alert"><h6>Объявления по данному запросу отсутствуют</h6></div></td></tr>
