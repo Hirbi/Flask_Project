@@ -17,8 +17,7 @@ parser.add_argument('name', required=True)
 parser.add_argument('phone', required=True, type=int)
 parser.add_argument('email', required=True)
 parser.add_argument('password', required=True)
-parser.add_argument('created_date', required=True)
-parser.add_argument('block', required=True)
+parser.add_argument('town', required=True)
 
 
 class UsersResource(Resource):
@@ -58,14 +57,14 @@ class UsersListResource(Resource):
         session = db_session.create_session()
         proverka = session.query(users.User).filter(users.User.id == args['id']).first()
         if proverka:
-            abort(404, message=f"User with id = {args['id']} already exists")
+            abort(404, message=f"User with id = {args['id']} already exists :/")
         user = users.User()
         user.id = args['id']
         user.name = args['name']
         user.phone = args['phone']
         user.email = args['email']
         user.password = args['password']
-        user.town = 'Город'
+        user.town = args['town']
         user.created_date = datetime.datetime.now()
         user.block = False
         user.admin = 0
