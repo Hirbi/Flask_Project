@@ -1,9 +1,5 @@
 from flask import redirect, request, make_response, abort, jsonify
-from flask_wtf import FlaskForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
-from wtforms import IntegerField, RadioField
-from wtforms.validators import DataRequired, Length
 from flask import Flask, render_template
 from data import db_session, objects, users
 from flask_restful import abort, Api
@@ -12,22 +8,18 @@ from resources import objects_resorce, users_resource
 from algorithms.password_algorithms import chek_password_combination
 from algorithms.phone_number_algorithms import check_phone
 import logging
+from forms import RegisterForm, LoginForm, ObjectsForm, SortAscending
+from forms import SortDescending, EditProfileForm, FindObjectForm, ConfirmPasswordForm
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
-app.config['SECRET_KEY'] = 'asdads_secret_key'
+app.config['SECRET_KEY'] = 'DinoTradeTheBest123_secret_key'
 api = Api(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 UPLOAD_FOLDER = os.getcwd() + '/static/img'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 files = []
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-logging.basicConfig(
-    filename='example.log',
-    format='%(filename)s%(asctime)s %(levelname)s %(name)s %(message)s',
-    level=logging.INFO
-)
 
 
 def return_date(user):
@@ -56,11 +48,6 @@ def log():
     logging.critical('Critical or Fatal')
 
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-
 @login_manager.user_loader
 def load_user(user_id):
     sessions = db_session.create_session()
@@ -70,68 +57,6 @@ def load_user(user_id):
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
-
-
-class RegisterForm(FlaskForm):
-    email = StringField('Почта', validators=[DataRequired()])
-    password = PasswordField('Пароль', validators=[DataRequired()])
-    password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
-    name = StringField('Имя пользователя', validators=[DataRequired(), Length(min=3, max=15)])
-    town = StringField('Город', validators=[DataRequired()])
-    phone = StringField('Телефон', validators=[DataRequired()])
-    submit = SubmitField('Зарегистрироваться')
-
-
-class LoginForm(FlaskForm):
-    email = StringField("Почта", validators=[DataRequired()])
-    password = PasswordField('Пароль', validators=[DataRequired()])
-    remember_me = BooleanField('Запомнить меня')
-    submit = SubmitField('Войти')
-
-
-class ObjectsForm(FlaskForm):
-    categories_arr = [('Одежда', 'Одежда'), ('Техника', 'Техника'), ('Мебель', 'Мебель'),
-                      ('Животные', 'Животные'), ('Другое', 'Другое')]
-    # список с категориями который работает НЕПОНЯТНО НО РАБОТАЕТ
-    # комментарий от ромы: я так половину проекта писал)
-    name = StringField('Название', validators=[DataRequired()])
-    category = RadioField('Выберите категорию товара', choices=categories_arr,
-                          validators=[DataRequired()])
-    price = IntegerField('Цена', validators=[DataRequired()])
-    description = TextAreaField('Описание', validators=[DataRequired()])
-    sold = BooleanField('Продано')
-    submit = SubmitField('Сохранить')
-
-
-class SortAscending(FlaskForm):
-    sort_ascending = SubmitField('Возрастанию')
-
-    def __repr__(self):
-        return 'Возрастание'
-
-
-class SortDescending(FlaskForm):
-    sort_descending = SubmitField('Убыванию')
-
-
-class EditProfileForm(FlaskForm):
-    new_name = StringField('Новое имя')
-    new_email = StringField("Новая почта")
-    new_password = StringField('Новый пароль')
-    new_password_again = StringField('Подтвердите новый пароль')
-    new_town = StringField('Новый город')
-    new_phone = StringField('Новый телефон')
-    submit = SubmitField('Подтвердить изменения')
-
-
-class FindObjectForm(FlaskForm):
-    find_line = StringField('Поиск по названию', validators=[DataRequired()])
-    find_button = SubmitField('Найти')
-
-
-class ConfirmPasswordForm(FlaskForm):
-    password = PasswordField('Пароль', validators=[DataRequired()])
-    submit = SubmitField('Подтвердить')
 
 
 def open_file(id, type):
@@ -539,7 +464,6 @@ def main_page(category='Всекатегории'):
 
 
 if __name__ == '__main__':
-    log()
     db_session.global_init("db/blogs.sqlite")
     api.add_resource(objects_resorce.ObjectsListResource, '/api/v0.1/objects')
     api.add_resource(objects_resorce.ObjResource, '/api/v0.1/objects/<int:obj_id>')
@@ -547,3 +471,4 @@ if __name__ == '__main__':
     api.add_resource(users_resource.UsersListResource, '/api/v0.1/users')
     api.add_resource(users_resource.UsersResource, '/api/v0.1/users/<int:user_id>')
     app.run(port=8080, host='127.0.0.1')
+    # log()
