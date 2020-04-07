@@ -7,7 +7,9 @@ pprint.pprint(post('http://localhost:8080/api/v0.1/users', json={'id': 11,
                                                                  'email': 'hirbus@gmail.com',
                                                                  'town': 'Москва',
                                                                  'password': '123asd123',
-                                                                 'created_date': '',
+                                                                 'admin_password':
+                                                                     'AvsS1Fa2a!_trade',
+                                                                 'admin': 3
                                                                  }).json())
 print('|' * 100)
 pprint.pprint(post('http://localhost:8080/api/v0.1/objects', json={'id': 1,
@@ -15,5 +17,5 @@ pprint.pprint(post('http://localhost:8080/api/v0.1/objects', json={'id': 1,
                                                                    'user_id': 1,
                                                                    'price': 120,
                                                                    'description':
-                                                                       'Описание объекта',
+                                                                       'Описание объекта'
                                                                    }).json())

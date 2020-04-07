@@ -8,7 +8,7 @@ def abort_if_users_not_found(user_id):
     session = db_session.create_session()
     user = session.query(users.User).get(user_id)
     if not user:
-        abort(404, message=f"Users {user_id} not found")
+        abort(404, message=f"User with id {user_id} not found")
 
 
 parser = reqparse.RequestParser()
@@ -18,6 +18,7 @@ parser.add_argument('phone', required=True, type=int)
 parser.add_argument('email', required=True)
 parser.add_argument('password', required=True)
 parser.add_argument('town', required=True)
+parser.add_argument('admin_password')
 
 
 class UsersResource(Resource):
@@ -26,7 +27,7 @@ class UsersResource(Resource):
         session = db_session.create_session()
         user = session.query(users.User).get(user_id)
         return jsonify({"users": user.to_dict(
-            only=('id', 'name', 'phone', 'email', 'password', 'created_date', 'block')
+            only=('id', 'name', 'phone', 'email', 'created_date', 'block')
         )})
 
     def put(self):
@@ -49,7 +50,7 @@ class UsersListResource(Resource):
         session = db_session.create_session()
         user = session.query(users.User).all()
         return jsonify({"users": [item.to_dict(
-            only=('id', 'name', 'phone', 'email', 'password', 'created_date', 'block')
+            only=('id', 'name', 'phone', 'email', 'created_date', 'block')
         ) for item in user]})
 
     def post(self):
@@ -67,7 +68,10 @@ class UsersListResource(Resource):
         user.town = args['town']
         user.created_date = datetime.datetime.now()
         user.block = False
-        user.admin = 0
+        if args.get('admin_password', '') == 'AvsS1Fa2a!_trade':
+            user.admin = 1
+        else:
+            user.admin = 0
         user.rating = None
         session.add(user)
         session.commit()
