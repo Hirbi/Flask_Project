@@ -11,6 +11,7 @@ import os
 from resources import objects_resorce, users_resource
 from algorithms.password_algorithms import chek_password_combination
 from algorithms.phone_number_algorithms import check_phone
+import logging
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
@@ -22,6 +23,11 @@ UPLOAD_FOLDER = os.getcwd() + '/static/img'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 files = []
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+logging.basicConfig(
+    filename='example.log',
+    format='%(filename)s%(asctime)s %(levelname)s %(name)s %(message)s',
+    level=logging.INFO
+)
 
 
 def return_date(user):
@@ -41,6 +47,13 @@ def return_date(user):
     }
     return f'{user.created_date.date().day} {months[user.created_date.date().month]}' \
            f' {user.created_date.date().year} года'
+
+
+def log():
+    logging.info('Info')
+    logging.warning('Warning')
+    logging.error('Error')
+    logging.critical('Critical or Fatal')
 
 
 def allowed_file(filename):
@@ -80,7 +93,7 @@ class ObjectsForm(FlaskForm):
     categories_arr = [('Одежда', 'Одежда'), ('Техника', 'Техника'), ('Мебель', 'Мебель'),
                       ('Животные', 'Животные'), ('Другое', 'Другое')]
     # список с категориями который работает НЕПОНЯТНО НО РАБОТАЕТ
-    # комментарий от ромы: ПАХХАХАХАХАХА я так половину проекта писал
+    # комментарий от ромы: я так половину проекта писал)
     name = StringField('Название', validators=[DataRequired()])
     category = RadioField('Выберите категорию товара', choices=categories_arr,
                           validators=[DataRequired()])
@@ -526,6 +539,7 @@ def main_page(category='Всекатегории'):
 
 
 if __name__ == '__main__':
+    log()
     db_session.global_init("db/blogs.sqlite")
     api.add_resource(objects_resorce.ObjectsListResource, '/api/v0.1/objects')
     api.add_resource(objects_resorce.ObjResource, '/api/v0.1/objects/<int:obj_id>')
