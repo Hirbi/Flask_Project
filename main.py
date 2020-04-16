@@ -239,6 +239,17 @@ def show_obj(id):
                            date=return_date(obj.user))
 
 
+@app.route('/object_delete_photos/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_photos(id):
+    session = db_session.create_session()
+    print('True')
+    obj = session.query(objects.Object).filter(objects.Object.id == id).first()
+    obj.pictures = ' '
+    session.commit()
+    return redirect(f'/obj/{id}')
+
+
 @app.route('/edit_profile/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_profile(id):
