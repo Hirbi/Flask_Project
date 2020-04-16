@@ -15,6 +15,7 @@ app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['SECRET_KEY'] = 'DinoTradeTheBest123_secret_key'
 api = Api(app)
+ALLOWED_TYPES = ['jpg', 'png', 'jpeg', 'gif']
 login_manager = LoginManager()
 login_manager.init_app(app)
 UPLOAD_FOLDER = os.getcwd() + '/static/img'
@@ -60,8 +61,11 @@ def not_found(error):
 
 
 def open_file(id, type):
+    file = request.files['file']
+    print(file.filename.split('.'))
+    if file.filename.split('.')[-1] not in ALLOWED_TYPES:
+        return False
     if type == 'avatar':
-        file = request.files['file']
         path_of_folder = '/'.join(UPLOAD_FOLDER.split('\\')) + '/avatar_' + str(id) + '/'
         try:
             os.mkdir(path_of_folder)
@@ -71,7 +75,6 @@ def open_file(id, type):
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         return filename
     if type == 'object':
-        file = request.files['file']
         path_of_folder = '/'.join(UPLOAD_FOLDER.split('\\')) + '/object_' + str(id) + '/'
         try:
             os.mkdir(path_of_folder)
@@ -141,6 +144,9 @@ def change_avatar():
     if request.method == 'POST':
         session = db_session.create_session()
         filename = open_file(current_user.id, 'avatar')
+        if not filename:
+            files = current_user.avatar
+            return render_template('change_avatar.html', title='Смена аватарки', files=files)
         current_user.avatar = '../' + '/'.join(filename.split('/')[-4:])
         session.merge(current_user)
         session.commit()
