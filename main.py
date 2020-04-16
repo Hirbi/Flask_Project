@@ -291,7 +291,15 @@ def add_obj():
         obj = objects.Object()
         obj.name = form.name.data
         obj.name_for_find = form.name.data.lower()
-        obj.price = form.price.data
+        if form.price.data > 10000000000:
+            return render_template('add_objects.html',
+                                   title='Новое объявление',
+                                   form=form,
+                                   files=files,
+                                   id=None, incor_ln='Мы не можем брать ответственность'
+                                                     ' за столь серьёзную сделку')
+        else:
+            obj.price = form.price.data
         obj.description = form.description.data
         obj.category = form.category.data
         obj.sold = form.sold.data

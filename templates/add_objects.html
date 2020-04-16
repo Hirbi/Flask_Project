@@ -40,6 +40,11 @@
                         Укажите корректную цену
                     </p>
                 {% endfor %}
+                {% if incor_ln %}
+                   <p class="alert alert-danger" role="alert">
+                        {{ incor_ln }}
+                    </p>
+                {% endif %}
             </p>
             <p>
                 {{ form.description.label }}
