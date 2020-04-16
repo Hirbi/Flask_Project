@@ -116,7 +116,15 @@ def edit_obj(id):
         obj = sessions.query(objects.Object).filter(objects.Object.id == id).first()
         if obj:
             obj.name = form.name.data
-            obj.price = form.price.data
+            if form.price.data > 10000000000:
+                return render_template('add_objects.html',
+                                       title='Новое объявление',
+                                       form=form,
+                                       files=files,
+                                       id=None, incor_ln='Мы не можем брать ответственность'
+                                                         ' за столь серьёзную сделку')
+            else:
+                obj.price = form.price.data
             obj.description = form.description.data
             obj.category = form.category.data
             obj.sold = form.sold.data
