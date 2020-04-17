@@ -62,9 +62,8 @@ def not_found(error):
 
 def open_file(id, type):
     file = request.files['file']
-    print(file.filename.split('.'))
     if file.filename.split('.')[-1] not in ALLOWED_TYPES:
-        return False
+        return False, False
     if type == 'avatar':
         path_of_folder = '/'.join(UPLOAD_FOLDER.split('\\')) + '/avatar_' + str(id) + '/'
         try:
@@ -144,15 +143,13 @@ def change_avatar():
     if request.method == 'POST':
         session = db_session.create_session()
         filename = open_file(current_user.id, 'avatar')
-        if not filename:
+        if not filename[0]:
             files = current_user.avatar
             return render_template('change_avatar.html', title='Смена аватарки', files=files)
         current_user.avatar = '../' + '/'.join(filename.split('/')[-4:])
         session.merge(current_user)
         session.commit()
     files = current_user.avatar
-    print("/", files, '/')
-    print(files)
     return render_template('change_avatar.html', title='Смена аватарки', files=files)
 
 
@@ -195,7 +192,6 @@ def profile(id):
 @app.route('/confirm_password/<int:id>', methods=['GET', 'POST'])
 @login_required
 def confirm_password(id):
-    print(current_user.is_authenticated)
     form = ConfirmPasswordForm()
     sessions = db_session.create_session()
     new = sessions.query(users.User).filter(users.User.id == id).first()
@@ -217,9 +213,8 @@ def show_obj(id):
     session = db_session.create_session()
     obj = session.query(objects.Object).filter(objects.Object.id == id).first()
     if request.method == 'POST':
-        try:
-            file, filename = open_file(id, 'object')
-        except Exception:
+        file, filename = open_file(id, 'object')
+        if not file:
             files = obj.pictures.split()
             return render_template('object_page.html', files=files,
                                    author=obj.user,
@@ -243,7 +238,6 @@ def show_obj(id):
 @login_required
 def delete_photos(id):
     session = db_session.create_session()
-    print('True')
     obj = session.query(objects.Object).filter(objects.Object.id == id).first()
     obj.pictures = ' '
     session.commit()
