@@ -4,6 +4,9 @@
 <h1 align="center">Объявление</h1>
 <div style="width: 50%; margin: 0 auto;">
     <div class="alert alert-warning" role="alert" style="width: 100%;">
+        {% if rules_message %}
+            <h3>{{ rules_message }}</h3>
+        {% endif %}
         <form action="" method="post">
             {{ form.hidden_tag() }}
             <p style="width: 50%;">
