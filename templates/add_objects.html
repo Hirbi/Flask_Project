@@ -60,6 +60,8 @@
                     </p>
                 {% endfor %}
             </p>
+            <p> {{ form.rules() }} Согласен с {{ form.rules.label }} сайта</p>
+            <p><a href="/rules"> Правила</a></p>
             {% if id != None %}
                 <p> {{ form.sold() }} {{ form.sold.label }} </p>
             {% endif %}

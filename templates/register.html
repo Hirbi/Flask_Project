@@ -120,6 +120,8 @@
                 </td>
             </tr>
         </table>
+        <p> {{ form.rules() }} Согласен с {{ form.rules.label }} сайта</p>
+        <p><a href="/rules"> Правила</a></p>
         <p align="center">{{ form.submit(type="submit", class="btn btn-primary") }}</p>
         {{message}}
     </div>

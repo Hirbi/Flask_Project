@@ -127,6 +127,7 @@ def edit_obj(id):
                                                          ' за столь серьёзную сделку')
             else:
                 obj.price = form.price.data
+            obj.name_for_find = form.name.data.lower()
             obj.description = form.description.data
             obj.category = form.category.data
             obj.sold = form.sold.data
@@ -308,7 +309,7 @@ def add_obj():
     if form.validate_on_submit():
         sessions = db_session.create_session()
         obj = objects.Object()
-        obj.name = form.name.data.lower()
+        obj.name = form.name.data
         obj.name_for_find = form.name.data.lower()
         if form.price.data > 10000000000:
             return render_template('add_objects.html',
@@ -433,6 +434,11 @@ def reqister():
     return render_template('register.html', title='Регистрация', form=form)
 
 
+@app.route('/rules', methods=['GET', 'POST'])
+def rules():
+    return render_template('rules.html', title='Правила')
+
+
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index/<category>', methods=['GET', 'POST'])
 def main_page(category='Всекатегории'):
@@ -444,7 +450,7 @@ def main_page(category='Всекатегории'):
     if sort_desc_form.sort_descending.data:
         if category != 'Всекатегории':
             objs = sessions.query(objects.Object).filter(objects.Object.sold == 0,
-                                                         objects.Object.category == category)\
+                                                         objects.Object.category == category) \
                 .order_by(
                 objects.Object.price.desc())
         else:
@@ -457,7 +463,7 @@ def main_page(category='Всекатегории'):
     if sort_asc_form.sort_ascending.data:
         if category != 'Всекатегории':
             objs = sessions.query(objects.Object).filter(objects.Object.sold == 0,
-                                                         objects.Object.category == category)\
+                                                         objects.Object.category == category) \
                 .order_by(objects.Object.price)
         else:
             objs = sessions.query(objects.Object).filter(objects.Object.sold == 0).order_by(

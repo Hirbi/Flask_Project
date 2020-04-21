@@ -11,6 +11,7 @@ class RegisterForm(FlaskForm):
     name = StringField('Имя пользователя', validators=[DataRequired(), Length(min=3, max=15)])
     town = StringField('Город', validators=[DataRequired()])
     phone = StringField('Телефон', validators=[DataRequired()])
+    rules = BooleanField('правилами')
     submit = SubmitField('Зарегистрироваться')
 
 
@@ -30,6 +31,7 @@ class ObjectsForm(FlaskForm):
                           validators=[DataRequired()])
     price = IntegerField('Цена', validators=[DataRequired()])
     description = TextAreaField('Описание', validators=[DataRequired()])
+    rules = BooleanField('правилами')
     sold = BooleanField('Продано')
     submit = SubmitField('Сохранить')
 
