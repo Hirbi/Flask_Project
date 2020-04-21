@@ -308,7 +308,7 @@ def add_obj():
     if form.validate_on_submit():
         sessions = db_session.create_session()
         obj = objects.Object()
-        obj.name = form.name.data
+        obj.name = form.name.data.lower()
         obj.name_for_find = form.name.data.lower()
         if form.price.data > 10000000000:
             return render_template('add_objects.html',
@@ -481,7 +481,7 @@ def main_page(category='Всекатегории'):
     if form.validate_on_submit():
         objs = sessions.query(objects.Object).filter(
             objects.Object.name_for_find.like(
-                f'%{what_we_want_to_find}%'), objects.Object.sold == 0)
+                f'%{what_we_want_to_find.lower()}%'), objects.Object.sold == 0)
         return render_template('main_page.html',
                                category=category,
                                current_user=current_user,
