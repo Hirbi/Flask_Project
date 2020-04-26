@@ -71,6 +71,7 @@
                         {% set arr = arr.append(1) %}
                         <td width="25%">
                             <div class="card" style="height: 100%; width: 302px; background: #fff3cd; margin-bot: 2%;">
+                                <a href="/obj/{{ object.id }}" style="text-decoration:none; color: #856404">
                                 {% if object.pictures == ' ' %}
                                     <img src="../static/img/not_found.png" class="card-img-top" height="300px" width="302px">
                                 {% else %}
@@ -81,13 +82,7 @@
                                     <p class="card-text"><span style="font-size: 20pt;">Цена: {{ object.price }} руб.</span></p>
                                     <p class="card-text"><span style="font-size: 18pt;">Категория: {{ object.category }}</span></p>
                                     <p class="card-text"><span style="font-size: 18pt;">Описание:</span><div style="height: 100px; max-height: calc(100vh - 56px); overflow-x: hidden; overflow-y: auto;">{{ object.description }}</div></p>
-                                    {% if current_user.is_authenticated and (current_user == object.user or current_user.admin > 0)%}
-                                        <div>
-                                            <div style="width: 48%; float: left;"><a style="width:100%" href="/edit_object/{{ object.id }}" class="btn btn-warning">Изменить</a></div>
-                                            <div style="width: 48%; float: right;"><a style="width:100%" href="/object_delete/{{ object.id }}" class="btn btn-danger">Удалить</a></div>
-                                        </div>
-                                    {% endif %}
-                                    <a href="/obj/{{ object.id }}" class="btn btn-primary">Перейти</a>
+                                    </a>
                             </div>
                         </td>
             {% endfor %}
