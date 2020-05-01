@@ -55,7 +55,7 @@
                         {{ form.password(class="form-control", type="password") }}<br>
                         {% if pass_message %}
                             {% if pass_message == 'Слишком слабый пароль'%}
-                                <p class="alert alert-danger" role="alert">Пароль должен содержать 8 символов, латинсике буквы верхнего и нижнего регистра, нижний пробел, 3 цифры, и в нём не должно быть более 3 идущих подряд одинаковых символов!</p>
+                                <p class="alert alert-danger" role="alert">Пароль должен содержать 8 символов, латинские буквы верхнего и нижнего регистра, нижний пробел, 3 цифры, и в нём не должно быть более 3 идущих подряд одинаковых символов!</p>
                             {% else %}
                                 <p class="alert alert-danger" role="alert">{{ pass_message }}</p>
                             {% endif %}
