@@ -11,6 +11,7 @@ import logging
 from forms import RegisterForm, LoginForm, ObjectsForm, SortAscending
 from forms import SortDescending, EditProfileForm, FindObjectForm, ConfirmPasswordForm
 
+db_session.global_init("db/blogs.sqlite")
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['SECRET_KEY'] = 'DinoTradeTheBest123_secret_key'
@@ -524,7 +525,6 @@ def main_page(category='Всекатегории'):
 
 
 if __name__ == '__main__':
-    db_session.global_init("db/blogs.sqlite")
     api.add_resource(objects_resorce.ObjectsListResource, '/api/v0.1/objects')
     api.add_resource(objects_resorce.ObjResource, '/api/v0.1/objects/<int:obj_id>')
     # ------------------------------------------------
