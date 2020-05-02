@@ -16,6 +16,11 @@ app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['SECRET_KEY'] = 'DinoTradeTheBest123_secret_key'
 api = Api(app)
+api.add_resource(objects_resorce.ObjectsListResource, '/api/v0.1/objects')
+api.add_resource(objects_resorce.ObjResource, '/api/v0.1/objects/<int:obj_id>')
+# ------------------------------------------------
+api.add_resource(users_resource.UsersListResource, '/api/v0.1/users')
+api.add_resource(users_resource.UsersResource, '/api/v0.1/users/<int:user_id>')
 ALLOWED_TYPES = ['jpg', 'png', 'jpeg', 'gif']
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -525,10 +530,5 @@ def main_page(category='Всекатегории'):
 
 
 if __name__ == '__main__':
-    api.add_resource(objects_resorce.ObjectsListResource, '/api/v0.1/objects')
-    api.add_resource(objects_resorce.ObjResource, '/api/v0.1/objects/<int:obj_id>')
-    # ------------------------------------------------
-    api.add_resource(users_resource.UsersListResource, '/api/v0.1/users')
-    api.add_resource(users_resource.UsersResource, '/api/v0.1/users/<int:user_id>')
     app.run(port=8080, host='127.0.0.1')
     # log()
