@@ -1,7 +1,7 @@
 import pprint
 from requests import post
 
-pprint.pprint(post('http://localhost:8080/api/v0.1/users', json={'id': 11,
+pprint.pprint(post('http://dinotrade.herokuapp.com/api/v0.1/users', json={'id': 11,
                                                                  'name': 'Hirb',
                                                                  'phone': '89209111334',
                                                                  'email': 'hirbus@gmail.com',
@@ -12,7 +12,7 @@ pprint.pprint(post('http://localhost:8080/api/v0.1/users', json={'id': 11,
                                                                  'admin': 3
                                                                  }).json())
 print('|' * 100)
-pprint.pprint(post('http://localhost:8080/api/v0.1/objects', json={'id': 1,
+pprint.pprint(post('http://dinotrade.herokuapp.com/api/v0.1/objects', json={'id': 1,
                                                                    'name': 'РАМАН',
                                                                    'user_id': 1,
                                                                    'price': 120,
